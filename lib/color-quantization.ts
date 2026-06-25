@@ -1,8 +1,6 @@
 import type { RGB } from "./types"
 
-// Main function to quantize colors based on the selected method
 export function quantizeColors(imageData: ImageData, method: string, colorCount: number): RGB[] {
-  // Extract pixel data
   const pixels: RGB[] = []
   const data = imageData.data
 
@@ -14,7 +12,6 @@ export function quantizeColors(imageData: ImageData, method: string, colorCount:
     })
   }
 
-  // Apply the selected quantization method
   switch (method) {
     case "medianCut":
       return medianCut(pixels, colorCount)
@@ -25,22 +22,17 @@ export function quantizeColors(imageData: ImageData, method: string, colorCount:
     case "neuQuant":
       return neuQuantQuantization(pixels, colorCount)
     default:
-      // Default to median cut if method not recognized
       return medianCut(pixels, colorCount)
   }
 }
 
-// Median Cut algorithm
 function medianCut(pixels: RGB[], colorCount: number): RGB[] {
   if (pixels.length === 0) return []
   if (colorCount <= 0) return []
 
-  // Start with all pixels in one bucket
   const buckets: RGB[][] = [pixels]
 
-  // Split buckets until we have enough
   while (buckets.length < colorCount) {
-    // Find the bucket with the largest range
     let bucketToSplit = 0
     let maxRange = -1
 
@@ -48,13 +40,7 @@ function medianCut(pixels: RGB[], colorCount: number): RGB[] {
       const bucket = buckets[i]
       if (bucket.length <= 1) continue
 
-      // Find the color channel with the largest range
-      let rMin = 255,
-        rMax = 0,
-        gMin = 255,
-        gMax = 0,
-        bMin = 255,
-        bMax = 0
+      let rMin = 255, rMax = 0, gMin = 255, gMax = 0, bMin = 255, bMax = 0
 
       for (const pixel of bucket) {
         rMin = Math.min(rMin, pixel.r)
@@ -65,10 +51,7 @@ function medianCut(pixels: RGB[], colorCount: number): RGB[] {
         bMax = Math.max(bMax, pixel.b)
       }
 
-      const rRange = rMax - rMin
-      const gRange = gMax - gMin
-      const bRange = bMax - bMin
-      const maxBucketRange = Math.max(rRange, gRange, bRange)
+      const maxBucketRange = Math.max(rMax - rMin, gMax - gMin, bMax - bMin)
 
       if (maxBucketRange > maxRange) {
         maxRange = maxBucketRange
@@ -76,18 +59,11 @@ function medianCut(pixels: RGB[], colorCount: number): RGB[] {
       }
     }
 
-    // If no bucket can be split further, break
     if (maxRange <= 0) break
 
     const bucket = buckets[bucketToSplit]
 
-    // Determine which channel to split on
-    let rMin = 255,
-      rMax = 0,
-      gMin = 255,
-      gMax = 0,
-      bMin = 255,
-      bMax = 0
+    let rMin = 255, rMax = 0, gMin = 255, gMax = 0, bMin = 255, bMax = 0
 
     for (const pixel of bucket) {
       rMin = Math.min(rMin, pixel.r)
@@ -111,27 +87,21 @@ function medianCut(pixels: RGB[], colorCount: number): RGB[] {
       sortChannel = "b"
     }
 
-    // Sort the bucket by the selected channel
     bucket.sort((a, b) => a[sortChannel] - b[sortChannel])
 
-    // Split the bucket in half
     const medianIndex = Math.floor(bucket.length / 2)
     const bucket1 = bucket.slice(0, medianIndex)
     const bucket2 = bucket.slice(medianIndex)
 
-    // Replace the original bucket with the two new ones
     buckets.splice(bucketToSplit, 1, bucket1, bucket2)
   }
 
-  // Calculate the average color for each bucket
   return buckets.map((bucket) => {
     if (bucket.length === 0) {
       return { r: 0, g: 0, b: 0 }
     }
 
-    let rSum = 0,
-      gSum = 0,
-      bSum = 0
+    let rSum = 0, gSum = 0, bSum = 0
 
     for (const pixel of bucket) {
       rSum += pixel.r
@@ -147,12 +117,10 @@ function medianCut(pixels: RGB[], colorCount: number): RGB[] {
   })
 }
 
-// K-Means Clustering algorithm
 function kMeansClustering(pixels: RGB[], k: number): RGB[] {
   if (pixels.length === 0) return []
   if (k <= 0) return []
 
-  // Initialize centroids randomly
   const centroids: RGB[] = []
   for (let i = 0; i < k; i++) {
     const randomIndex = Math.floor(Math.random() * pixels.length)
@@ -163,9 +131,7 @@ function kMeansClustering(pixels: RGB[], k: number): RGB[] {
   let iterations = 0
   let changed = true
 
-  // Assign pixels to clusters and update centroids
   while (changed && iterations < maxIterations) {
-    // Assign each pixel to the nearest centroid
     const clusters: RGB[][] = Array.from({ length: k }, () => [])
 
     for (const pixel of pixels) {
@@ -183,15 +149,12 @@ function kMeansClustering(pixels: RGB[], k: number): RGB[] {
       clusters[closestCentroid].push(pixel)
     }
 
-    // Update centroids
     changed = false
     for (let i = 0; i < k; i++) {
       const cluster = clusters[i]
       if (cluster.length === 0) continue
 
-      let rSum = 0,
-        gSum = 0,
-        bSum = 0
+      let rSum = 0, gSum = 0, bSum = 0
 
       for (const pixel of cluster) {
         rSum += pixel.r
@@ -205,7 +168,6 @@ function kMeansClustering(pixels: RGB[], k: number): RGB[] {
         b: Math.round(bSum / cluster.length),
       }
 
-      // Check if centroid changed
       if (newCentroid.r !== centroids[i].r || newCentroid.g !== centroids[i].g || newCentroid.b !== centroids[i].b) {
         centroids[i] = newCentroid
         changed = true
@@ -218,55 +180,151 @@ function kMeansClustering(pixels: RGB[], k: number): RGB[] {
   return centroids
 }
 
-// Octree Quantization (simplified version)
+class OctreeNode {
+  children: (OctreeNode | null)[] = [null, null, null, null, null, null, null, null]
+  count = 0
+  r = 0
+  g = 0
+  b = 0
+  isLeaf = false
+
+  add(color: RGB, depth: number) {
+    this.r += color.r
+    this.g += color.g
+    this.b += color.b
+    this.count++
+
+    if (depth === 8) {
+      this.isLeaf = true
+      return
+    }
+
+    const rBit = (color.r >> (7 - depth)) & 1
+    const gBit = (color.g >> (7 - depth)) & 1
+    const bBit = (color.b >> (7 - depth)) & 1
+    const index = (rBit << 2) | (gBit << 1) | bBit
+
+    if (!this.children[index]) {
+      this.children[index] = new OctreeNode()
+    }
+    this.children[index]!.add(color, depth + 1)
+  }
+
+  reduce(depth: number, target: number, leaves: OctreeNode[]): number {
+    if (this.isLeaf) return 1
+
+    let leafCount = 0
+    for (const child of this.children) {
+      if (child) {
+        leafCount += child.reduce(depth + 1, target, leaves)
+      }
+    }
+
+    if (depth > 0 && leafCount <= target && leafCount > 0) {
+      let r = 0, g = 0, b = 0, count = 0
+      for (let i = 0; i < 8; i++) {
+        const child = this.children[i]
+        if (child && child.count > 0) {
+          r += child.r
+          g += child.g
+          b += child.b
+          count += child.count
+          this.children[i] = null
+        }
+      }
+      this.r = r
+      this.g = g
+      this.b = b
+      this.count = count
+      this.isLeaf = true
+      leafCount = 1
+    }
+
+    return leafCount
+  }
+
+  collectPalette(palette: RGB[]) {
+    if (this.isLeaf && this.count > 0) {
+      palette.push({
+        r: Math.round(this.r / this.count),
+        g: Math.round(this.g / this.count),
+        b: Math.round(this.b / this.count),
+      })
+      return
+    }
+    for (const child of this.children) {
+      if (child) child.collectPalette(palette)
+    }
+  }
+}
+
 function octreeQuantization(pixels: RGB[], colorCount: number): RGB[] {
-  // For simplicity, we'll use a hybrid approach for this demo
-  // In a real implementation, this would be a full octree algorithm
+  if (pixels.length === 0) return []
+  if (colorCount <= 0) return []
 
-  // First, reduce the color space to 5 bits per channel
-  const reducedPixels = pixels.map((pixel) => ({
-    r: Math.floor(pixel.r / 8) * 8,
-    g: Math.floor(pixel.g / 8) * 8,
-    b: Math.floor(pixel.b / 8) * 8,
-  }))
+  const root = new OctreeNode()
 
-  // Then count frequency of each color
-  const colorMap = new Map<string, { color: RGB; count: number }>()
+  for (const pixel of pixels) {
+    root.add(pixel, 0)
+  }
 
-  for (const pixel of reducedPixels) {
-    const key = `${pixel.r},${pixel.g},${pixel.b}`
-    if (colorMap.has(key)) {
-      colorMap.get(key)!.count++
-    } else {
-      colorMap.set(key, { color: pixel, count: 1 })
+  const leaves: OctreeNode[] = []
+  root.reduce(0, colorCount, leaves)
+
+  const palette: RGB[] = []
+  root.collectPalette(palette)
+
+  while (palette.length < colorCount) {
+    palette.push({ r: 0, g: 0, b: 0 })
+  }
+
+  return palette.slice(0, colorCount)
+}
+
+function neuQuantQuantization(pixels: RGB[], colorCount: number): RGB[] {
+  if (pixels.length === 0) return []
+  if (colorCount <= 0) return []
+
+  const network: RGB[] = []
+  for (let i = 0; i < colorCount; i++) {
+    const idx = Math.floor((i * pixels.length) / colorCount)
+    network.push({ ...pixels[Math.min(idx, pixels.length - 1)] })
+  }
+
+  const maxCycles = Math.min(100, pixels.length / 10)
+  const learnRate = 0.1
+  const adjustRate = 0.01
+
+  for (let cycle = 0; cycle < maxCycles; cycle++) {
+    const pixel = pixels[Math.floor(Math.random() * pixels.length)]
+
+    let winner = 0
+    let minDist = Infinity
+    for (let i = 0; i < network.length; i++) {
+      const d = colorDistance(pixel, network[i])
+      if (d < minDist) {
+        minDist = d
+        winner = i
+      }
+    }
+
+    const radius = Math.max(1, Math.floor(colorCount * (1 - cycle / maxCycles) * 0.5))
+    const rate = learnRate * (1 - cycle / maxCycles)
+
+    for (let i = 0; i < network.length; i++) {
+      const dist = Math.abs(i - winner)
+      if (dist <= radius) {
+        const influence = rate * (1 - dist / radius)
+        network[i].r = Math.max(0, Math.min(255, network[i].r + (pixel.r - network[i].r) * influence))
+        network[i].g = Math.max(0, Math.min(255, network[i].g + (pixel.g - network[i].g) * influence))
+        network[i].b = Math.max(0, Math.min(255, network[i].b + (pixel.b - network[i].b) * influence))
+      }
     }
   }
 
-  // Sort by frequency
-  const sortedColors = Array.from(colorMap.values())
-    .sort((a, b) => b.count - a.count)
-    .slice(0, colorCount)
-    .map((item) => item.color)
-
-  // If we don't have enough colors, add some
-  while (sortedColors.length < colorCount) {
-    sortedColors.push({ r: 0, g: 0, b: 0 })
-  }
-
-  return sortedColors
+  return network
 }
 
-// NeuQuant Neural Network Quantization (simplified version)
-function neuQuantQuantization(pixels: RGB[], colorCount: number): RGB[] {
-  // This is a simplified version for demonstration
-  // A real implementation would use the full NeuQuant algorithm
-
-  // For this demo, we'll use a combination of median cut and k-means
-  const initialPalette = medianCut(pixels, colorCount)
-  return kMeansClustering(pixels, colorCount)
-}
-
-// Calculate Euclidean distance between two colors
 function colorDistance(color1: RGB, color2: RGB): number {
   const rDiff = color1.r - color2.r
   const gDiff = color1.g - color2.g

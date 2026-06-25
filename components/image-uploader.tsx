@@ -38,9 +38,11 @@ export default function ImageUploader({ onImageUpload }: ImageUploaderProps) {
     }
   }, [])
 
+  const supportedFormats = ["image/jpeg", "image/png", "image/gif", "image/webp"]
+
   const handleFile = useCallback(
     (file: File) => {
-      if (!file.type.match("image.*")) {
+      if (!supportedFormats.includes(file.type)) {
         alert("Please select an image file (JPG, PNG, GIF, WEBP)")
         return
       }
@@ -67,51 +69,36 @@ export default function ImageUploader({ onImageUpload }: ImageUploaderProps) {
   }, [])
 
   return (
-    <div className="w-full max-w-3xl mx-auto border border-[#999999] bg-[#e8e8e8]">
-      <div className="bg-[#d0d0d0] border-b border-[#999999] p-1">
-        <div className="text-[12px] uppercase font-bold tracking-[1px]">Upload Image</div>
-      </div>
-      <div className="p-4">
-        <div
-          className={`border-2 border-dashed p-8 text-center ${
-            isDragging ? "border-[#3366cc] bg-[#e8f0ff]" : "border-[#999999]"
-          }`}
-          onDragOver={handleDragOver}
-          onDragLeave={handleDragLeave}
-          onDrop={handleDrop}
-        >
-          <div className="flex flex-col items-center justify-center space-y-4">
-            <div className="border border-[#999999] p-4 bg-[#d0d0d0]">
-              <ImageIcon className="h-10 w-10 text-[#333333]" />
-            </div>
-            <div className="space-y-2">
-              <h3 className="text-[14px] font-bold uppercase tracking-[1px]">Upload an image to dither</h3>
-              <p className="text-[11px] text-[#666666] max-w-md mx-auto">
-                Drag and drop an image file (JPG, PNG, GIF, WEBP), or click the button below to select a file
-              </p>
-            </div>
-            <button
-              onClick={handleButtonClick}
-              className="px-4 py-2 text-[11px] uppercase font-bold tracking-[1px] border border-[#999999] bg-[#3366cc] text-white hover:bg-[#4477dd]"
-            >
-              <Upload className="h-4 w-4 inline-block mr-2" />
-              SELECT IMAGE
-            </button>
-            <input type="file" ref={fileInputRef} onChange={handleFileInput} accept="image/*" className="hidden" />
+    <div className="w-full max-w-3xl mx-auto">
+      <div
+        className={`border-2 border-dashed p-8 text-center ${
+          isDragging ? "border-accent bg-surface" : "border-border"
+        }`}
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
+        onDrop={handleDrop}
+      >
+        <div className="flex flex-col items-center justify-center space-y-4">
+          <div>
+            <ImageIcon className="h-10 w-10 text-muted" />
+          </div>
+          <div className="space-y-2">
+            <h3 className="text-[14px] font-bold uppercase">Upload an image to dither</h3>
+            <p className="text-[11px] text-muted max-w-md mx-auto">
+              Drag and drop an image file (JPG, PNG, GIF, WEBP), or click the button below to select a file
+            </p>
+          </div>
+          <button
+            onClick={handleButtonClick}
+            className="px-4 py-2 text-[11px] uppercase font-bold bg-accent text-white hover:bg-accent-dim"
+          >
+            <Upload className="h-4 w-4 inline-block mr-2" />
+            SELECT IMAGE
+          </button>
+          <input type="file" ref={fileInputRef} onChange={handleFileInput} accept="image/*" className="hidden" />
 
-            <div className="w-full border border-[#999999] p-2 text-[11px] bg-[#f0f0f0]">
-              <div className="uppercase font-bold mb-1">Supported formats:</div>
-              <table className="w-full border-collapse">
-                <tbody>
-                  <tr>
-                    <td className="border border-[#999999] p-1 text-center bg-[#d8d8d8]">JPG</td>
-                    <td className="border border-[#999999] p-1 text-center bg-[#d8d8d8]">PNG</td>
-                    <td className="border border-[#999999] p-1 text-center bg-[#d8d8d8]">GIF</td>
-                    <td className="border border-[#999999] p-1 text-center bg-[#d8d8d8]">WEBP</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+          <div className="text-[11px] text-muted">
+            Supported formats: JPG &middot; PNG &middot; GIF &middot; WEBP
           </div>
         </div>
       </div>

@@ -89,17 +89,20 @@ export default function BatchProcessing({
     onLogEntry(`Batch processing complete. Processed ${Object.keys(processed).length} images.`, "BATCH")
   }
 
-  const downloadAllAsZip = () => {
-    onLogEntry("Preparing batch download...", "BATCH")
-    // In a real implementation, we would use JSZip to create a zip file
-    // For now, we'll just download each image individually
+  const downloadAllAsZip = async () => {
+    onLogEntry("Preparing batch download as ZIP...", "BATCH")
+    const JSZip = (await import("jszip")).default
+    const zip = new JSZip()
     Object.entries(processedImages).forEach(([id, dataUrl]) => {
-      const link = document.createElement("a")
-      link.href = dataUrl
-      link.download = `dithered_${id}.png`
-      link.click()
+      zip.file(`dithered_${id}.png`, dataUrl.split(",")[1], { base64: true })
     })
-    onLogEntry("Batch download complete", "BATCH")
+    const blob = await zip.generateAsync({ type: "blob" })
+    const link = document.createElement("a")
+    link.href = URL.createObjectURL(blob)
+    link.download = `dieter-batch-${Date.now()}.zip`
+    link.click()
+    URL.revokeObjectURL(link.href)
+    onLogEntry(`Batch download complete: ${Object.keys(processedImages).length} images`, "BATCH")
   }
 
   const downloadSingle = (id: string) => {
@@ -114,61 +117,57 @@ export default function BatchProcessing({
 
   return (
     <div className="space-y-2">
-      <div className="border border-[#999999] bg-[#e8e8e8]">
-        <div className="bg-[#d0d0d0] border-b border-[#999999] p-1">
-          <div className="text-[12px] uppercase font-bold tracking-[1px]">Batch Processing Queue</div>
+      <div>
+        <div className="flex justify-between mb-2 border-b border-border pb-1">
+          <div className="text-[11px] uppercase font-bold tracking-[1px]">Batch Processing Queue</div>
+          <div className="text-[11px] text-muted">
+            {batchImages.length} image{batchImages.length !== 1 ? "s" : ""} in queue
+          </div>
         </div>
-        <div className="p-2">
-          <div className="flex justify-between mb-2">
-            <div className="text-[11px]">
-              {batchImages.length} image{batchImages.length !== 1 ? "s" : ""} in queue
-            </div>
-            <div className="space-x-2">
-              <button
-                className="px-2 py-1 text-[11px] uppercase font-bold border border-[#999999] bg-[#3366cc] text-white hover:bg-[#4477dd] disabled:bg-[#999999]"
-                onClick={handleProcessBatch}
-                disabled={processing || batchImages.length === 0}
-              >
-                <Play className="h-3 w-3 inline-block mr-1" />
-                Process All
-              </button>
-              <button
-                className="px-2 py-1 text-[11px] uppercase font-bold border border-[#999999] bg-[#d8d8d8] hover:bg-[#e8e8e8] disabled:bg-[#999999]"
-                onClick={downloadAllAsZip}
-                disabled={Object.keys(processedImages).length === 0}
-              >
-                <Download className="h-3 w-3 inline-block mr-1" />
-                Download All
-              </button>
-            </div>
+        <div className="space-y-2">
+          <div className="flex justify-end gap-2">
+            <button
+              className="px-2 py-1 text-[11px] uppercase font-bold bg-accent text-white hover:bg-accent-dim disabled:bg-disabled"
+              onClick={handleProcessBatch}
+              disabled={processing || batchImages.length === 0}
+            >
+              <Play className="h-3 w-3 inline-block mr-1" />
+              Process All
+            </button>
+            <button
+              className="px-2 py-1 text-[11px] uppercase font-bold bg-transparent hover:bg-surface disabled:bg-disabled"
+              onClick={downloadAllAsZip}
+              disabled={Object.keys(processedImages).length === 0}
+            >
+              <Download className="h-3 w-3 inline-block mr-1" />
+              Download All
+            </button>
           </div>
 
           {batchImages.length === 0 ? (
-            <div className="border border-[#999999] p-4 text-center bg-[#f0f0f0]">
+            <div className="p-4 text-center">
               <div className="text-[12px]">No images in batch queue</div>
-              <div className="text-[11px] text-[#666666] mt-1">Add images to the batch queue from the main editor</div>
+              <div className="text-[11px] text-muted mt-1">Add images to the batch queue from the main editor</div>
             </div>
           ) : (
-            <table className="w-full border-collapse text-[11px]">
+            <table className="w-full text-[11px] border-collapse">
               <thead>
-                <tr className="bg-[#d0d0d0]">
-                  <th className="border border-[#999999] p-1 text-left">ID</th>
-                  <th className="border border-[#999999] p-1 text-left">Preview</th>
-                  <th className="border border-[#999999] p-1 text-left">Size</th>
-                  <th className="border border-[#999999] p-1 text-left">Algorithm</th>
-                  <th className="border border-[#999999] p-1 text-left">Palette</th>
-                  <th className="border border-[#999999] p-1 text-left">Status</th>
-                  <th className="border border-[#999999] p-1 text-left">Actions</th>
+                <tr className="border-b border-border">
+                  <th className="p-1 text-left uppercase font-bold">ID</th>
+                  <th className="p-1 text-left uppercase font-bold">Preview</th>
+                  <th className="p-1 text-left uppercase font-bold">Size</th>
+                  <th className="p-1 text-left uppercase font-bold">Algo</th>
+                  <th className="p-1 text-left uppercase font-bold">Palette</th>
+                  <th className="p-1 text-left uppercase font-bold">Status</th>
+                  <th className="p-1 text-left uppercase font-bold">Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {batchImages.map((image, index) => (
-                  <tr key={image.id} className={index % 2 === 0 ? "bg-[#f0f0f0]" : "bg-[#e8e8e8]"}>
-                    <td className="border border-[#999999] p-1">
-                      <div className="font-mono">{image.id.substring(0, 8)}</div>
-                    </td>
-                    <td className="border border-[#999999] p-1">
-                      <div className="w-[60px] h-[40px] bg-[#d8d8d8] border border-[#999999] overflow-hidden flex items-center justify-center">
+                {batchImages.map((image) => (
+                  <tr key={image.id} className="border-b border-border">
+                    <td className="p-1 font-mono">{image.id.substring(0, 8)}</td>
+                    <td className="p-1">
+                      <div className="w-[60px] h-[40px] bg-surface border border-border overflow-hidden flex items-center justify-center">
                         {processedImages[image.id] ? (
                           <img
                             src={processedImages[image.id] || "/placeholder.svg"}
@@ -184,33 +183,33 @@ export default function BatchProcessing({
                         )}
                       </div>
                     </td>
-                    <td className="border border-[#999999] p-1">
+                    <td className="p-1">
                       {image.image.width} x {image.image.height}
                     </td>
-                    <td className="border border-[#999999] p-1">{image.ditheringOptions.algorithm}</td>
-                    <td className="border border-[#999999] p-1">{image.ditheringOptions.palette}</td>
-                    <td className="border border-[#999999] p-1">
-                      {image.status === "pending" && <span className="text-[#666666]">Pending</span>}
+                    <td className="p-1">{image.ditheringOptions.algorithm}</td>
+                    <td className="p-1">{image.ditheringOptions.palette}</td>
+                    <td className="p-1">
+                      {image.status === "pending" && <span className="text-muted">Pending</span>}
                       {image.status === "processing" && (
-                        <span className="text-[#cc6600] bg-[#ffcc33] px-1 font-bold">PROCESSING</span>
+                        <span className="text-white bg-accent px-1 font-bold">PROCESSING</span>
                       )}
                       {image.status === "completed" && (
-                        <span className="text-[#006600] bg-[#ccffcc] px-1 font-bold">
+                        <span className="text-white bg-success px-1 font-bold">
                           <Check className="h-3 w-3 inline-block mr-1" />
                           DONE
                         </span>
                       )}
                       {image.status === "error" && (
-                        <span className="text-[#cc0000] bg-[#ffcccc] px-1 font-bold">
+                        <span className="text-white bg-accent px-1 font-bold">
                           <X className="h-3 w-3 inline-block mr-1" />
                           ERROR
                         </span>
                       )}
                     </td>
-                    <td className="border border-[#999999] p-1">
-                      <div className="flex space-x-1">
+                    <td className="p-1">
+                      <div className="flex gap-1">
                         <button
-                          className="px-1 text-[10px] uppercase border border-[#999999] bg-[#d8d8d8] hover:bg-[#e8e8e8] disabled:bg-[#999999]"
+                          className="px-1 text-[10px] uppercase bg-transparent hover:bg-surface"
                           onClick={() => downloadSingle(image.id)}
                           disabled={!processedImages[image.id]}
                           title="Download"
@@ -218,7 +217,7 @@ export default function BatchProcessing({
                           <Download className="h-3 w-3" />
                         </button>
                         <button
-                          className="px-1 text-[10px] uppercase border border-[#999999] bg-[#ffcccc] hover:bg-[#ffdddd]"
+                          className="px-1 text-[10px] uppercase bg-transparent text-accent hover:bg-accent hover:text-white"
                           onClick={() => onRemoveImage(image.id)}
                           title="Remove"
                         >

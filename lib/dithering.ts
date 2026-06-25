@@ -2,7 +2,55 @@ import type { DitheringOptions, RGB } from "./types"
 import { palettes, findClosestColor } from "./palettes"
 import { quantizeColors } from "./color-quantization"
 
-// Apply dithering to the image data
+function luminance(c: RGB): number {
+  return 0.2989 * c.r + 0.587 * c.g + 0.114 * c.b
+}
+
+function colorDistance(a: RGB, b: RGB): number {
+  const rd = a.r - b.r
+  const gd = a.g - b.g
+  const bd = a.b - b.b
+  return rd * rd + gd * gd + bd * bd
+}
+
+function orderedDitherPixel(
+  x: number, y: number,
+  pixel: RGB,
+  palette: RGB[],
+  matrix: number[][],
+  matrixSize: number,
+  threshold: number
+): RGB {
+  if (palette.length <= 2) {
+    const lum = luminance(pixel)
+    const matrixVal = matrix[y % matrixSize][x % matrixSize]
+    const norm = (matrixVal + 0.5) / (matrixSize * matrixSize)
+    const adjThreshold = threshold / 255
+    return (norm < adjThreshold) === (lum / 255 > adjThreshold) ? palette[1] : palette[0]
+  }
+
+  const nearest = findClosestColor(pixel, palette)
+  let second = palette[0]
+  let secondDist = Infinity
+  for (const c of palette) {
+    if (c === nearest) continue
+    const d = colorDistance(pixel, c)
+    if (d < secondDist) {
+      secondDist = d
+      second = c
+    }
+  }
+
+  const nearestDist = colorDistance(pixel, nearest)
+  const totalDist = nearestDist + secondDist
+  const blend = totalDist > 0 ? nearestDist / totalDist : 0.5
+
+  const matrixVal = matrix[y % matrixSize][x % matrixSize]
+  const normalized = matrixVal / (matrixSize * matrixSize)
+
+  return normalized < blend ? nearest : second
+}
+
 export function applyDithering(imageData: ImageData, options: DitheringOptions): ImageData {
   const {
     algorithm,
@@ -12,50 +60,45 @@ export function applyDithering(imageData: ImageData, options: DitheringOptions):
     ditherScale,
     colorQuantization,
     colorCount,
+    customPalettes,
   } = options
 
-  // Create a copy of the image data to work with
-  const canvas = document.createElement("canvas")
-  const ctx = canvas.getContext("2d")!
-  canvas.width = imageData.width
-  canvas.height = imageData.height
-  ctx.putImageData(imageData, 0, 0)
-
-  // Scale the image if ditherScale is not 1
   let scaledWidth = imageData.width
   let scaledHeight = imageData.height
 
+  let scaledImageData: ImageData
+
   if (ditherScale !== 1) {
-    // Scale down for processing
     scaledWidth = Math.max(1, Math.round(imageData.width / ditherScale))
     scaledHeight = Math.max(1, Math.round(imageData.height / ditherScale))
 
-    const scaledCanvas = document.createElement("canvas")
-    const scaledCtx = scaledCanvas.getContext("2d")!
-    scaledCanvas.width = scaledWidth
-    scaledCanvas.height = scaledHeight
+    const src = new OffscreenCanvas(imageData.width, imageData.height)
+    const sctx = src.getContext("2d")!
+    sctx.putImageData(imageData, 0, 0)
 
-    scaledCtx.drawImage(canvas, 0, 0, scaledWidth, scaledHeight)
-    canvas.width = scaledWidth
-    canvas.height = scaledHeight
-    ctx.drawImage(scaledCanvas, 0, 0)
+    const dst = new OffscreenCanvas(scaledWidth, scaledHeight)
+    const dctx = dst.getContext("2d")!
+    dctx.drawImage(src, 0, 0, scaledWidth, scaledHeight)
+
+    scaledImageData = dctx.getImageData(0, 0, scaledWidth, scaledHeight)
+  } else {
+    scaledImageData = imageData
   }
 
-  // Get the scaled image data
-  const scaledImageData = ctx.getImageData(0, 0, scaledWidth, scaledHeight)
-
-  // Get the selected palette or apply color quantization
   let selectedPalette: RGB[]
 
   if (colorQuantization && colorQuantization !== "none" && colorCount) {
-    // Apply color quantization to generate a custom palette
     selectedPalette = quantizeColors(scaledImageData, colorQuantization, colorCount)
   } else {
-    // Use the selected palette
-    selectedPalette = palettes[paletteName]?.colors || palettes.bw.colors
+    const isCustom = paletteName.startsWith("custom_")
+    if (isCustom && customPalettes) {
+      const name = paletteName.slice(7)
+      selectedPalette = customPalettes[name] || palettes.bw.colors
+    } else {
+      selectedPalette = palettes[paletteName]?.colors || palettes.bw.colors
+    }
   }
 
-  // Apply the selected dithering algorithm
   let ditheredData: ImageData
 
   switch (algorithm) {
@@ -107,26 +150,22 @@ export function applyDithering(imageData: ImageData, options: DitheringOptions):
       break
   }
 
-  // If we scaled the image, scale it back up
   if (ditherScale !== 1) {
-    ctx.putImageData(ditheredData, 0, 0)
+    const src = new OffscreenCanvas(scaledWidth, scaledHeight)
+    const sctx = src.getContext("2d")!
+    sctx.putImageData(ditheredData, 0, 0)
 
-    const finalCanvas = document.createElement("canvas")
-    const finalCtx = finalCanvas.getContext("2d")!
-    finalCanvas.width = imageData.width
-    finalCanvas.height = imageData.height
+    const dst = new OffscreenCanvas(imageData.width, imageData.height)
+    const dctx = dst.getContext("2d")!
+    dctx.imageSmoothingEnabled = false
+    dctx.drawImage(src, 0, 0, imageData.width, imageData.height)
 
-    // Use nearest-neighbor scaling to maintain the pixelated look
-    finalCtx.imageSmoothingEnabled = false
-    finalCtx.drawImage(canvas, 0, 0, imageData.width, imageData.height)
-
-    return finalCtx.getImageData(0, 0, imageData.width, imageData.height)
+    return dctx.getImageData(0, 0, imageData.width, imageData.height)
   }
 
   return ditheredData
 }
 
-// Simple threshold dithering
 function thresholdDithering(imageData: ImageData, palette: RGB[], threshold: number): ImageData {
   const data = imageData.data
   const width = imageData.width
@@ -136,14 +175,11 @@ function thresholdDithering(imageData: ImageData, palette: RGB[], threshold: num
     for (let x = 0; x < width; x++) {
       const i = (y * width + x) * 4
 
-      const r = data[i]
-      const g = data[i + 1]
-      const b = data[i + 2]
+      const lum = 0.2989 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2]
+      const bits = lum > threshold ? 255 : 0
 
-      // Find the closest color in the palette
-      const closestColor = findClosestColor({ r, g, b }, palette)
+      const closestColor = findClosestColor({ r: bits, g: bits, b: bits }, palette)
 
-      // Set the pixel to the closest color
       data[i] = closestColor.r
       data[i + 1] = closestColor.g
       data[i + 2] = closestColor.b
@@ -153,7 +189,6 @@ function thresholdDithering(imageData: ImageData, palette: RGB[], threshold: num
   return imageData
 }
 
-// Floyd-Steinberg dithering
 function floydSteinbergDithering(imageData: ImageData, palette: RGB[], diffusionStrength: number): ImageData {
   const data = new Uint8ClampedArray(imageData.data)
   const width = imageData.width
@@ -173,12 +208,10 @@ function floydSteinbergDithering(imageData: ImageData, palette: RGB[], diffusion
       data[i + 1] = closestColor.g
       data[i + 2] = closestColor.b
 
-      // Calculate quantization error
       const errorR = (oldR - closestColor.r) * diffusionStrength
       const errorG = (oldG - closestColor.g) * diffusionStrength
       const errorB = (oldB - closestColor.b) * diffusionStrength
 
-      // Distribute error to neighboring pixels
       if (x + 1 < width) {
         data[i + 4] = Math.max(0, Math.min(255, data[i + 4] + (errorR * 7) / 16))
         data[i + 5] = Math.max(0, Math.min(255, data[i + 5] + (errorG * 7) / 16))
@@ -208,7 +241,6 @@ function floydSteinbergDithering(imageData: ImageData, palette: RGB[], diffusion
   return new ImageData(data, width, height)
 }
 
-// Atkinson dithering
 function atkinsonDithering(imageData: ImageData, palette: RGB[], diffusionStrength: number): ImageData {
   const data = new Uint8ClampedArray(imageData.data)
   const width = imageData.width
@@ -228,12 +260,10 @@ function atkinsonDithering(imageData: ImageData, palette: RGB[], diffusionStreng
       data[i + 1] = closestColor.g
       data[i + 2] = closestColor.b
 
-      // Calculate quantization error
       const errorR = (oldR - closestColor.r) * diffusionStrength
       const errorG = (oldG - closestColor.g) * diffusionStrength
       const errorB = (oldB - closestColor.b) * diffusionStrength
 
-      // Distribute error (1/8) to neighboring pixels
       const distribution = [
         [1, 0],
         [2, 0],
@@ -261,7 +291,6 @@ function atkinsonDithering(imageData: ImageData, palette: RGB[], diffusionStreng
   return new ImageData(data, width, height)
 }
 
-// Jarvis-Judice-Ninke dithering
 function jarvisDithering(imageData: ImageData, palette: RGB[], diffusionStrength: number): ImageData {
   const data = new Uint8ClampedArray(imageData.data)
   const width = imageData.width
@@ -281,12 +310,10 @@ function jarvisDithering(imageData: ImageData, palette: RGB[], diffusionStrength
       data[i + 1] = closestColor.g
       data[i + 2] = closestColor.b
 
-      // Calculate quantization error
       const errorR = (oldR - closestColor.r) * diffusionStrength
       const errorG = (oldG - closestColor.g) * diffusionStrength
       const errorB = (oldB - closestColor.b) * diffusionStrength
 
-      // Jarvis-Judice-Ninke distribution pattern
       const distribution = [
         [1, 0, 7 / 48],
         [2, 0, 5 / 48],
@@ -320,7 +347,6 @@ function jarvisDithering(imageData: ImageData, palette: RGB[], diffusionStrength
   return new ImageData(data, width, height)
 }
 
-// Stucki dithering
 function stuckiDithering(imageData: ImageData, palette: RGB[], diffusionStrength: number): ImageData {
   const data = new Uint8ClampedArray(imageData.data)
   const width = imageData.width
@@ -340,12 +366,10 @@ function stuckiDithering(imageData: ImageData, palette: RGB[], diffusionStrength
       data[i + 1] = closestColor.g
       data[i + 2] = closestColor.b
 
-      // Calculate quantization error
       const errorR = (oldR - closestColor.r) * diffusionStrength
       const errorG = (oldG - closestColor.g) * diffusionStrength
       const errorB = (oldB - closestColor.b) * diffusionStrength
 
-      // Stucki distribution pattern
       const distribution = [
         [1, 0, 8 / 42],
         [2, 0, 4 / 42],
@@ -379,7 +403,6 @@ function stuckiDithering(imageData: ImageData, palette: RGB[], diffusionStrength
   return new ImageData(data, width, height)
 }
 
-// Burkes dithering
 function burkesDithering(imageData: ImageData, palette: RGB[], diffusionStrength: number): ImageData {
   const data = new Uint8ClampedArray(imageData.data)
   const width = imageData.width
@@ -399,12 +422,10 @@ function burkesDithering(imageData: ImageData, palette: RGB[], diffusionStrength
       data[i + 1] = closestColor.g
       data[i + 2] = closestColor.b
 
-      // Calculate quantization error
       const errorR = (oldR - closestColor.r) * diffusionStrength
       const errorG = (oldG - closestColor.g) * diffusionStrength
       const errorB = (oldB - closestColor.b) * diffusionStrength
 
-      // Burkes distribution pattern
       const distribution = [
         [1, 0, 8 / 32],
         [2, 0, 4 / 32],
@@ -433,7 +454,6 @@ function burkesDithering(imageData: ImageData, palette: RGB[], diffusionStrength
   return new ImageData(data, width, height)
 }
 
-// Sierra dithering
 function sierraDithering(imageData: ImageData, palette: RGB[], diffusionStrength: number): ImageData {
   const data = new Uint8ClampedArray(imageData.data)
   const width = imageData.width
@@ -453,12 +473,10 @@ function sierraDithering(imageData: ImageData, palette: RGB[], diffusionStrength
       data[i + 1] = closestColor.g
       data[i + 2] = closestColor.b
 
-      // Calculate quantization error
       const errorR = (oldR - closestColor.r) * diffusionStrength
       const errorG = (oldG - closestColor.g) * diffusionStrength
       const errorB = (oldB - closestColor.b) * diffusionStrength
 
-      // Sierra distribution pattern
       const distribution = [
         [1, 0, 5 / 32],
         [2, 0, 3 / 32],
@@ -490,7 +508,6 @@ function sierraDithering(imageData: ImageData, palette: RGB[], diffusionStrength
   return new ImageData(data, width, height)
 }
 
-// Sierra Lite dithering
 function sierraLiteDithering(imageData: ImageData, palette: RGB[], diffusionStrength: number): ImageData {
   const data = new Uint8ClampedArray(imageData.data)
   const width = imageData.width
@@ -510,12 +527,10 @@ function sierraLiteDithering(imageData: ImageData, palette: RGB[], diffusionStre
       data[i + 1] = closestColor.g
       data[i + 2] = closestColor.b
 
-      // Calculate quantization error
       const errorR = (oldR - closestColor.r) * diffusionStrength
       const errorG = (oldG - closestColor.g) * diffusionStrength
       const errorB = (oldB - closestColor.b) * diffusionStrength
 
-      // Sierra Lite distribution pattern
       const distribution = [
         [1, 0, 2 / 4],
         [-1, 1, 1 / 4],
@@ -540,7 +555,6 @@ function sierraLiteDithering(imageData: ImageData, palette: RGB[], diffusionStre
   return new ImageData(data, width, height)
 }
 
-// Sierra-2 dithering
 function sierra2Dithering(imageData: ImageData, palette: RGB[], diffusionStrength: number): ImageData {
   const data = new Uint8ClampedArray(imageData.data)
   const width = imageData.width
@@ -560,12 +574,10 @@ function sierra2Dithering(imageData: ImageData, palette: RGB[], diffusionStrengt
       data[i + 1] = closestColor.g
       data[i + 2] = closestColor.b
 
-      // Calculate quantization error
       const errorR = (oldR - closestColor.r) * diffusionStrength
       const errorG = (oldG - closestColor.g) * diffusionStrength
       const errorB = (oldB - closestColor.b) * diffusionStrength
 
-      // Sierra-2 distribution pattern
       const distribution = [
         [1, 0, 4 / 16],
         [2, 0, 3 / 16],
@@ -594,39 +606,31 @@ function sierra2Dithering(imageData: ImageData, palette: RGB[], diffusionStrengt
   return new ImageData(data, width, height)
 }
 
-// Bayer dithering with different matrix sizes
+const bayer2x2 = [[0, 2], [3, 1]]
+const bayer4x4 = [
+  [0, 8, 2, 10],
+  [12, 4, 14, 6],
+  [3, 11, 1, 9],
+  [15, 7, 13, 5],
+]
+const bayer8x8 = [
+  [0, 32, 8, 40, 2, 34, 10, 42],
+  [48, 16, 56, 24, 50, 18, 58, 26],
+  [12, 44, 4, 36, 14, 46, 6, 38],
+  [60, 28, 52, 20, 62, 30, 54, 22],
+  [3, 35, 11, 43, 1, 33, 9, 41],
+  [51, 19, 59, 27, 49, 17, 57, 25],
+  [15, 47, 7, 39, 13, 45, 5, 37],
+  [63, 31, 55, 23, 61, 29, 53, 21],
+]
+
 function bayerDithering(imageData: ImageData, palette: RGB[], size: number, threshold: number): ImageData {
   const data = new Uint8ClampedArray(imageData.data)
   const width = imageData.width
   const height = imageData.height
 
-  // Define Bayer matrices
-  const bayer2x2 = [
-    [0, 2],
-    [3, 1],
-  ]
-
-  const bayer4x4 = [
-    [0, 8, 2, 10],
-    [12, 4, 14, 6],
-    [3, 11, 1, 9],
-    [15, 7, 13, 5],
-  ]
-
-  const bayer8x8 = [
-    [0, 32, 8, 40, 2, 34, 10, 42],
-    [48, 16, 56, 24, 50, 18, 58, 26],
-    [12, 44, 4, 36, 14, 46, 6, 38],
-    [60, 28, 52, 20, 62, 30, 54, 22],
-    [3, 35, 11, 43, 1, 33, 9, 41],
-    [51, 19, 59, 27, 49, 17, 57, 25],
-    [15, 47, 7, 39, 13, 45, 5, 37],
-    [63, 31, 55, 23, 61, 29, 53, 21],
-  ]
-
-  // Select the appropriate matrix
-  let matrix
-  let matrixSize
+  let matrix: number[][]
+  let matrixSize: number
 
   if (size === 2) {
     matrix = bayer2x2
@@ -639,132 +643,71 @@ function bayerDithering(imageData: ImageData, palette: RGB[], size: number, thre
     matrixSize = 8
   }
 
-  // Normalize the matrix values to 0-255 range
-  const matrixFactor = 256 / (matrixSize * matrixSize)
-
   for (let y = 0; y < height; y++) {
     for (let x = 0; x < width; x++) {
       const i = (y * width + x) * 4
-
-      const r = data[i]
-      const g = data[i + 1]
-      const b = data[i + 2]
-
-      // Get the Bayer threshold value for this pixel
-      const thresholdValue = matrix[y % matrixSize][x % matrixSize] * matrixFactor - 128 + threshold
-
-      // Apply the threshold to each color channel
-      const newR = r > thresholdValue ? 255 : 0
-      const newG = g > thresholdValue ? 255 : 0
-      const newB = b > thresholdValue ? 255 : 0
-
-      // Find the closest color in the palette
-      const closestColor = findClosestColor({ r: newR, g: newG, b: newB }, palette)
-
-      data[i] = closestColor.r
-      data[i + 1] = closestColor.g
-      data[i + 2] = closestColor.b
+      const pixel = { r: data[i], g: data[i + 1], b: data[i + 2] }
+      const result = orderedDitherPixel(x, y, pixel, palette, matrix, matrixSize, threshold)
+      data[i] = result.r
+      data[i + 1] = result.g
+      data[i + 2] = result.b
     }
   }
 
   return new ImageData(data, width, height)
 }
 
-// Clustered dot dithering
+const clusteredDot = [[12, 5, 6, 13], [4, 0, 1, 7], [11, 3, 2, 8], [15, 10, 9, 14]]
+
 function clusteredDotDithering(imageData: ImageData, palette: RGB[], threshold: number): ImageData {
   const data = new Uint8ClampedArray(imageData.data)
   const width = imageData.width
   const height = imageData.height
 
-  // Define a clustered dot matrix (4x4)
-  const clusteredDot = [
-    [12, 5, 6, 13],
-    [4, 0, 1, 7],
-    [11, 3, 2, 8],
-    [15, 10, 9, 14],
-  ]
-
-  // Normalize the matrix values to 0-255 range
-  const matrixFactor = 256 / 16
-
   for (let y = 0; y < height; y++) {
     for (let x = 0; x < width; x++) {
       const i = (y * width + x) * 4
-
-      const r = data[i]
-      const g = data[i + 1]
-      const b = data[i + 2]
-
-      // Get the threshold value for this pixel
-      const thresholdValue = clusteredDot[y % 4][x % 4] * matrixFactor - 128 + threshold
-
-      // Apply the threshold to each color channel
-      const newR = r > thresholdValue ? 255 : 0
-      const newG = g > thresholdValue ? 255 : 0
-      const newB = b > thresholdValue ? 255 : 0
-
-      // Find the closest color in the palette
-      const closestColor = findClosestColor({ r: newR, g: newG, b: newB }, palette)
-
-      data[i] = closestColor.r
-      data[i + 1] = closestColor.g
-      data[i + 2] = closestColor.b
+      const pixel = { r: data[i], g: data[i + 1], b: data[i + 2] }
+      const result = orderedDitherPixel(x, y, pixel, palette, clusteredDot, 4, threshold)
+      data[i] = result.r
+      data[i + 1] = result.g
+      data[i + 2] = result.b
     }
   }
 
   return new ImageData(data, width, height)
 }
 
-// Halftone dithering
+const halftone = [
+  [24, 10, 12, 26, 35, 47, 49, 37],
+  [8, 0, 2, 14, 45, 59, 61, 51],
+  [22, 6, 4, 16, 43, 57, 63, 53],
+  [30, 20, 18, 28, 33, 41, 55, 39],
+  [34, 46, 48, 36, 25, 11, 13, 27],
+  [44, 58, 60, 50, 9, 1, 3, 15],
+  [42, 56, 62, 52, 23, 7, 5, 17],
+  [32, 40, 54, 38, 31, 21, 19, 29],
+]
+
 function halftoneDithering(imageData: ImageData, palette: RGB[], threshold: number): ImageData {
   const data = new Uint8ClampedArray(imageData.data)
   const width = imageData.width
   const height = imageData.height
 
-  // Define a halftone pattern (8x8)
-  const halftone = [
-    [24, 10, 12, 26, 35, 47, 49, 37],
-    [8, 0, 2, 14, 45, 59, 61, 51],
-    [22, 6, 4, 16, 43, 57, 63, 53],
-    [30, 20, 18, 28, 33, 41, 55, 39],
-    [34, 46, 48, 36, 25, 11, 13, 27],
-    [44, 58, 60, 50, 9, 1, 3, 15],
-    [42, 56, 62, 52, 23, 7, 5, 17],
-    [32, 40, 54, 38, 31, 21, 19, 29],
-  ]
-
-  // Normalize the matrix values to 0-255 range
-  const matrixFactor = 256 / 64
-
   for (let y = 0; y < height; y++) {
     for (let x = 0; x < width; x++) {
       const i = (y * width + x) * 4
-
-      const r = data[i]
-      const g = data[i + 1]
-      const b = data[i + 2]
-
-      // Get the threshold value for this pixel
-      const thresholdValue = halftone[y % 8][x % 8] * matrixFactor - 128 + threshold
-
-      // Apply the threshold to each color channel
-      const newR = r > thresholdValue ? 255 : 0
-      const newG = g > thresholdValue ? 255 : 0
-      const newB = b > thresholdValue ? 255 : 0
-
-      // Find the closest color in the palette
-      const closestColor = findClosestColor({ r: newR, g: newG, b: newB }, palette)
-
-      data[i] = closestColor.r
-      data[i + 1] = closestColor.g
-      data[i + 2] = closestColor.b
+      const pixel = { r: data[i], g: data[i + 1], b: data[i + 2] }
+      const result = orderedDitherPixel(x, y, pixel, palette, halftone, 8, threshold)
+      data[i] = result.r
+      data[i + 1] = result.g
+      data[i + 2] = result.b
     }
   }
 
   return new ImageData(data, width, height)
 }
 
-// Random dithering
 function randomDithering(imageData: ImageData, palette: RGB[], threshold: number): ImageData {
   const data = new Uint8ClampedArray(imageData.data)
   const width = imageData.width
@@ -778,16 +721,13 @@ function randomDithering(imageData: ImageData, palette: RGB[], threshold: number
       const g = data[i + 1]
       const b = data[i + 2]
 
-      // Generate a random threshold adjustment
       const randomAdjustment = Math.floor(Math.random() * 256) - 128
       const adjustedThreshold = threshold + randomAdjustment
 
-      // Apply the threshold to each color channel
       const newR = r > adjustedThreshold ? 255 : 0
       const newG = g > adjustedThreshold ? 255 : 0
       const newB = b > adjustedThreshold ? 255 : 0
 
-      // Find the closest color in the palette
       const closestColor = findClosestColor({ r: newR, g: newG, b: newB }, palette)
 
       data[i] = closestColor.r

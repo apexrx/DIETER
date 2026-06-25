@@ -5,7 +5,7 @@ export const HelpContent: Record<string, React.ReactNode> = {
   // --- Existing Sections (with ordered-dithering completed) ---
   "uploading-images": (
     <div>
-      <h1 className="text-[18px] font-bold mb-3 pb-1 border-b-2 border-[#3366cc]">
+      <h1 className="text-[18px] font-bold mb-3 pb-1 border-b border-accent">
         Uploading Images
       </h1>
 
@@ -15,7 +15,7 @@ export const HelpContent: Record<string, React.ReactNode> = {
         </p>
       </div>
 
-      <div className="border border-[#999999] p-2 bg-[#e8e8e8] mb-4">
+      <div className="mb-4">
         <h2 className="text-[14px] font-bold mb-2">Supported File Formats</h2>
         <p className="text-[12px] leading-tight mb-2">
           DIETER supports the following image file formats:
@@ -30,7 +30,7 @@ export const HelpContent: Record<string, React.ReactNode> = {
       </div>
 
       <div className="grid grid-cols-2 gap-4 mb-4">
-        <div className="border border-[#999999] p-2 bg-[#f8f8f8]">
+        <div className="mb-4">
           <h3 className="text-[12px] font-bold uppercase mb-1">Upload Methods</h3>
           <ul className="list-disc pl-4 text-[11px] space-y-1">
             <li><strong>Drag and Drop:</strong> Drag files from your computer directly onto the drop zone</li>
@@ -39,7 +39,7 @@ export const HelpContent: Record<string, React.ReactNode> = {
             <li><strong>URL Import:</strong> Enter a web URL to an image in the URL field</li>
           </ul>
         </div>
-        <div className="border border-[#999999] p-2 bg-[#f8f8f8]">
+        <div className="mb-4">
           <h3 className="text-[12px] font-bold uppercase mb-1">Size Limitations</h3>
           <ul className="list-disc pl-4 text-[11px] space-y-1">
             <li><strong>Maximum file size:</strong> 10MB</li>
@@ -50,9 +50,9 @@ export const HelpContent: Record<string, React.ReactNode> = {
         </div>
       </div>
 
-      <div className="border border-[#999999] p-2 bg-[#ffffcc] mb-4">
+      <div className="mb-4">
         <h3 className="text-[12px] font-bold mb-1 flex items-center">
-          <span className="inline-block w-4 h-4 bg-[#ffcc33] text-black text-center mr-1 border border-[#cc9900]">
+          <span className="inline-block w-4 h-4 bg-accent text-white text-center mr-1 font-bold">
             !
           </span>
           Important
@@ -62,7 +62,7 @@ export const HelpContent: Record<string, React.ReactNode> = {
         </p>
       </div>
 
-      <div className="border border-[#999999] p-2 bg-[#e8e8e8] mb-4">
+      <div className="mb-4">
         <h2 className="text-[14px] font-bold mb-2">Step-by-Step Upload Guide</h2>
         <ol className="list-decimal pl-5 text-[12px] space-y-2">
           <li>
@@ -89,7 +89,7 @@ export const HelpContent: Record<string, React.ReactNode> = {
           Once your image is uploaded, you can proceed to the{" "}
           <a
             href="#basic-workflow"
-            className="text-[#3366cc] underline"
+            className="text-accent underline"
           >
             Basic Workflow
           </a>{" "}
@@ -97,15 +97,15 @@ export const HelpContent: Record<string, React.ReactNode> = {
         </p>
       </div>
 
-      <div className="border-t border-[#999999] pt-2 mt-4">
-        <div className="text-[10px] text-[#666666]">Last updated: {new Date().toLocaleDateString()}</div>
+      <div className="border-t border-border pt-2 mt-4">
+        <div className="text-[10px] text-muted">Last updated: {new Date().toLocaleDateString()}</div>
       </div>
     </div>
   ),
 
   "interface-overview": (
     <div>
-      <h1 className="text-[18px] font-bold mb-3 pb-1 border-b-2 border-[#3366cc]">
+      <h1 className="text-[18px] font-bold mb-3 pb-1 border-b border-accent">
         Interface Overview
       </h1>
 
@@ -115,33 +115,33 @@ export const HelpContent: Record<string, React.ReactNode> = {
         </p>
       </div>
 
-      <div className="border border-[#999999] p-2 bg-[#e8e8e8] mb-4">
+      <div className="mb-4">
         <h2 className="text-[14px] font-bold mb-2">Main Interface Sections</h2>
-        <div className="border border-[#999999] p-2 bg-[#f8f8f8] mb-2">
+        <div className="mb-2">
           <h3 className="text-[12px] font-bold mb-1">1. Image Preview Area</h3>
           <p className="text-[11px] leading-tight">
             The central area where your image is displayed. This shows the current state of your image with all applied effects and dithering. You can zoom in/out using the controls or mouse wheel.
           </p>
         </div>
-        <div className="border border-[#999999] p-2 bg-[#f8f8f8] mb-2">
+        <div className="mb-2">
           <h3 className="text-[12px] font-bold mb-1">2. Control Panel</h3>
           <p className="text-[11px] leading-tight">
             Located on the right side, this panel contains all the controls for adjusting dithering parameters, color quantization, and image adjustments. It's organized into collapsible sections for easy navigation.
           </p>
         </div>
-        <div className="border border-[#999999] p-2 bg-[#f8f8f8] mb-2">
+        <div className="mb-2">
           <h3 className="text-[12px] font-bold mb-1">3. Toolbar</h3>
           <p className="text-[11px] leading-tight">
             Located at the top of the interface, the toolbar provides quick access to common functions like opening files, saving results, undoing/redoing changes, and accessing help.
           </p>
         </div>
-        <div className="border border-[#999999] p-2 bg-[#f8f8f8] mb-2">
+        <div className="mb-2">
           <h3 className="text-[12px] font-bold mb-1">4. Palette Display</h3>
           <p className="text-[11px] leading-tight">
             Shows the current color palette being used for dithering. You can click on individual colors to edit them or import/export palettes.
           </p>
         </div>
-        <div className="border border-[#999999] p-2 bg-[#f8f8f8]">
+        <div className="mb-4">
           <h3 className="text-[12px] font-bold mb-1">5. Status Bar</h3>
           <p className="text-[11px] leading-tight">
             Located at the bottom of the interface, displays information about the current image (dimensions, file size), processing status, and zoom level.
@@ -149,49 +149,49 @@ export const HelpContent: Record<string, React.ReactNode> = {
         </div>
       </div>
 
-      <div className="border border-[#999999] p-2 bg-[#e8e8e8] mb-4">
+      <div className="mb-4">
         <h2 className="text-[14px] font-bold mb-2">Control Panel Sections</h2>
         <table className="w-full border-collapse text-[11px]">
           <thead>
-            <tr className="bg-[#d0d0d0]">
-              <th className="border border-[#999999] p-1 text-left">Section</th>
-              <th className="border border-[#999999] p-1 text-left">Description</th>
-              <th className="border border-[#999999] p-1 text-left">Key Controls</th>
+            <tr>
+              <th className="p-1 text-left">Section</th>
+              <th className="p-1 text-left">Description</th>
+              <th className="p-1 text-left">Key Controls</th>
             </tr>
           </thead>
           <tbody>
-            <tr className="bg-[#f0f0f0]">
-              <td className="border border-[#999999] p-1"><strong>Dithering</strong></td>
-              <td className="border border-[#999999] p-1">Controls for dithering algorithm selection and parameters</td>
-              <td className="border border-[#999999] p-1">Algorithm dropdown, Diffusion Strength, Pattern Size</td>
+            <tr>
+              <td className="p-1"><strong>Dithering</strong></td>
+              <td className="p-1">Controls for dithering algorithm selection and parameters</td>
+              <td className="p-1">Algorithm dropdown, Diffusion Strength, Pattern Size</td>
             </tr>
-            <tr className="bg-[#e8e8e8]">
-              <td className="border border-[#999999] p-1"><strong>Color Quantization</strong></td>
-              <td className="border border-[#999999] p-1">Settings for color reduction and palette generation</td>
-              <td className="border border-[#999999] p-1">Algorithm selector, Color Count, Palette selector</td>
+            <tr>
+              <td className="p-1"><strong>Color Quantization</strong></td>
+              <td className="p-1">Settings for color reduction and palette generation</td>
+              <td className="p-1">Algorithm selector, Color Count, Palette selector</td>
             </tr>
-            <tr className="bg-[#f0f0f0]">
-              <td className="border border-[#999999] p-1"><strong>Image Adjustments</strong></td>
-              <td className="border border-[#999999] p-1">Pre-processing adjustments for the input image</td>
-              <td className="border border-[#999999] p-1">Brightness, Contrast, Saturation, Blur/Sharpen sliders</td>
+            <tr>
+              <td className="p-1"><strong>Image Adjustments</strong></td>
+              <td className="p-1">Pre-processing adjustments for the input image</td>
+              <td className="p-1">Brightness, Contrast, Saturation, Blur/Sharpen sliders</td>
             </tr>
-            <tr className="bg-[#e8e8e8]">
-              <td className="border border-[#999999] p-1"><strong>Histogram</strong></td>
-              <td className="border border-[#999999] p-1">Color distribution analysis of the image</td>
-              <td className="border border-[#999999] p-1">Channel selector, Scale controls</td>
+            <tr>
+              <td className="p-1"><strong>Histogram</strong></td>
+              <td className="p-1">Color distribution analysis of the image</td>
+              <td className="p-1">Channel selector, Scale controls</td>
             </tr>
-            <tr className="bg-[#f0f0f0]">
-              <td className="border border-[#999999] p-1"><strong>Processing Log</strong></td>
-              <td className="border border-[#999999] p-1">Record of operations performed on the image</td>
-              <td className="border border-[#999999] p-1">Clear Log, Copy Log, Log Level selector</td>
+            <tr>
+              <td className="p-1"><strong>Processing Log</strong></td>
+              <td className="p-1">Record of operations performed on the image</td>
+              <td className="p-1">Clear Log, Copy Log, Log Level selector</td>
             </tr>
           </tbody>
         </table>
       </div>
 
-      <div className="border border-[#999999] p-2 bg-[#ffffcc] mb-4">
+      <div className="mb-4">
         <h3 className="text-[12px] font-bold mb-1 flex items-center">
-          <span className="inline-block w-4 h-4 bg-[#ffcc33] text-black text-center mr-1 border border-[#cc9900]">
+          <span className="inline-block w-4 h-4 bg-accent text-white text-center mr-1 font-bold">
             !
           </span>
           Tip
@@ -207,7 +207,7 @@ export const HelpContent: Record<string, React.ReactNode> = {
           {/* Note: The href here should ideally trigger setActiveSection('basic-workflow') */}
           <a
             href="#basic-workflow"
-            className="text-[#3366cc] underline"
+            className="text-accent underline"
           >
             Basic Workflow
           </a>{" "}
@@ -215,15 +215,15 @@ export const HelpContent: Record<string, React.ReactNode> = {
         </p>
       </div>
 
-      <div className="border-t border-[#999999] pt-2 mt-4">
-        <div className="text-[10px] text-[#666666]">Last updated: {new Date().toLocaleDateString()}</div>
+      <div className="border-t border-border pt-2 mt-4">
+        <div className="text-[10px] text-muted">Last updated: {new Date().toLocaleDateString()}</div>
       </div>
     </div>
   ),
 
   "basic-workflow": (
     <div>
-      <h1 className="text-[18px] font-bold mb-3 pb-1 border-b-2 border-[#3366cc]">
+      <h1 className="text-[18px] font-bold mb-3 pb-1 border-b border-accent">
         Basic Workflow
       </h1>
 
@@ -233,12 +233,12 @@ export const HelpContent: Record<string, React.ReactNode> = {
         </p>
       </div>
 
-      <div className="border border-[#999999] p-2 bg-[#e8e8e8] mb-4">
+      <div className="mb-4">
         <h2 className="text-[14px] font-bold mb-2">Step 1: Upload an Image</h2>
          {/* Note: The href here should ideally trigger setActiveSection('uploading-images') */}
         <p className="text-[12px] leading-tight mb-2">
           Begin by uploading an image using one of the methods described in the{" "}
-          <a href="#uploading-images" className="text-[#3366cc] underline">Uploading Images</a> section.
+          <a href="#uploading-images" className="text-accent underline">Uploading Images</a> section.
         </p>
         <ul className="list-disc pl-5 text-[12px] space-y-1">
           <li>Drag and drop an image onto the drop zone</li>
@@ -248,7 +248,7 @@ export const HelpContent: Record<string, React.ReactNode> = {
         </ul>
       </div>
 
-      <div className="border border-[#999999] p-2 bg-[#e8e8e8] mb-4">
+      <div className="mb-4">
         <h2 className="text-[14px] font-bold mb-2">Step 2: Adjust Image (Optional)</h2>
         <p className="text-[12px] leading-tight mb-2">
           Before applying dithering, you may want to adjust the image to optimize results:
@@ -264,7 +264,7 @@ export const HelpContent: Record<string, React.ReactNode> = {
         </p>
       </div>
 
-      <div className="border border-[#999999] p-2 bg-[#e8e8e8] mb-4">
+      <div className="mb-4">
         <h2 className="text-[14px] font-bold mb-2">Step 3: Select Color Quantization Method</h2>
         <p className="text-[12px] leading-tight mb-2">
           Color quantization reduces the number of colors in your image:
@@ -274,14 +274,14 @@ export const HelpContent: Record<string, React.ReactNode> = {
           <li>Choose a quantization algorithm (Median Cut, K-Means, Octree, or NeuQuant)</li>
           <li>Set the desired number of colors using the "Color Count" slider</li>
            {/* Note: Link target 'custom-palettes' might be under Advanced Features */}
-          <li>Alternatively, select a predefined palette or define a <a href="#custom-palettes" className="text-[#3366cc] underline">Custom Palette</a></li>
+          <li>Alternatively, select a predefined palette or define a <a href="#custom-palettes" className="text-accent underline">Custom Palette</a></li>
         </ol>
         <p className="text-[12px] leading-tight mt-2">
           The choice of palette and color count dramatically affects the final appearance of your dithered image.
         </p>
       </div>
 
-      <div className="border border-[#999999] p-2 bg-[#e8e8e8] mb-4">
+      <div className="mb-4">
         <h2 className="text-[14px] font-bold mb-2">Step 4: Apply Dithering</h2>
         <p className="text-[12px] leading-tight mb-2">
           Now apply the dithering effect:
@@ -289,7 +289,7 @@ export const HelpContent: Record<string, React.ReactNode> = {
         <ol className="list-decimal pl-5 text-[12px] space-y-1">
           <li>Open the "Dithering" panel</li>
            {/* Note: Link targets 'error-diffusion' and 'ordered-dithering' are under Dithering Algorithms */}
-          <li>Select a dithering algorithm (e.g., <a href="#error-diffusion" className="text-[#3366cc] underline">Error Diffusion</a> or <a href="#ordered-dithering" className="text-[#3366cc] underline">Ordered Dithering</a>)</li>
+          <li>Select a dithering algorithm (e.g., <a href="#error-diffusion" className="text-accent underline">Error Diffusion</a> or <a href="#ordered-dithering" className="text-accent underline">Ordered Dithering</a>)</li>
           <li>Adjust the "Diffusion Strength" slider (for error diffusion)</li>
           <li>Adjust the "Pattern Size" or other relevant controls (for ordered dithering)</li>
         </ol>
@@ -298,42 +298,42 @@ export const HelpContent: Record<string, React.ReactNode> = {
         </p>
       </div>
 
-      <div className="border border-[#999999] p-2 bg-[#ffffcc] mb-4">
+      <div className="mb-4">
         <h3 className="text-[12px] font-bold mb-1 flex items-center">
-          <span className="inline-block w-4 h-4 bg-[#ffcc33] text-black text-center mr-1 border border-[#cc9900]">
+          <span className="inline-block w-4 h-4 bg-accent text-white text-center mr-1 font-bold">
             !
           </span>
           Recommended Combinations
         </h3>
         <table className="w-full border-collapse text-[11px]">
           <thead>
-            <tr className="bg-[#e8e8e8]">
-              <th className="border border-[#999999] p-1 text-left">Image Type</th>
-              <th className="border border-[#999999] p-1 text-left">Recommended Settings</th>
+            <tr>
+              <th className="p-1 text-left">Image Type</th>
+              <th className="p-1 text-left">Recommended Settings</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td className="border border-[#999999] p-1">Photographs</td>
-              <td className="border border-[#999999] p-1">Floyd-Steinberg dithering with 16-32 colors using K-Means quantization</td>
+              <td className="p-1">Photographs</td>
+              <td className="p-1">Floyd-Steinberg dithering with 16-32 colors using K-Means quantization</td>
             </tr>
             <tr>
-              <td className="border border-[#999999] p-1">Pixel Art</td>
-              <td className="border border-[#999999] p-1">Bayer ordered dithering with a predefined retro palette (e.g., C64, NES)</td>
+              <td className="p-1">Pixel Art</td>
+              <td className="p-1">Bayer ordered dithering with a predefined retro palette (e.g., C64, NES)</td>
             </tr>
             <tr>
-              <td className="border border-[#999999] p-1">Text/UI Elements</td>
-              <td className="border border-[#999999] p-1">Atkinson dithering with high contrast and limited colors (8-16)</td>
+              <td className="p-1">Text/UI Elements</td>
+              <td className="p-1">Atkinson dithering with high contrast and limited colors (8-16)</td>
             </tr>
             <tr>
-              <td className="border border-[#999999] p-1">Artistic Effects</td>
-              <td className="border border-[#999999] p-1">Stucki or Jarvis dithering with custom palettes and high diffusion strength</td>
+              <td className="p-1">Artistic Effects</td>
+              <td className="p-1">Stucki or Jarvis dithering with custom palettes and high diffusion strength</td>
             </tr>
           </tbody>
         </table>
       </div>
 
-      <div className="border border-[#999999] p-2 bg-[#e8e8e8] mb-4">
+      <div className="mb-4">
         <h2 className="text-[14px] font-bold mb-2">Step 5: Fine-tune Results</h2>
         <p className="text-[12px] leading-tight mb-2">
           Experiment with different combinations of settings to achieve your desired result:
@@ -342,13 +342,13 @@ export const HelpContent: Record<string, React.ReactNode> = {
           <li>Try different dithering algorithms to see which works best for your image</li>
           <li>Adjust the color count to find the optimal balance between detail and stylization</li>
            {/* Note: Link target 'histogram' might be under Advanced Features */}
-          <li>Use the <a href="#histogram" className="text-[#3366cc] underline">Histogram</a> to analyze color distribution</li>
+          <li>Use the <a href="#histogram" className="text-accent underline">Histogram</a> to analyze color distribution</li>
            {/* Note: Link target 'processing-log' might be under Advanced Features */}
-          <li>Check the <a href="#processing-log" className="text-[#3366cc] underline">Processing Log</a> for information</li>
+          <li>Check the <a href="#processing-log" className="text-accent underline">Processing Log</a> for information</li>
         </ul>
       </div>
 
-      <div className="border border-[#999999] p-2 bg-[#e8e8e8] mb-4">
+      <div className="mb-4">
         <h2 className="text-[14px] font-bold mb-2">Step 6: Save Your Result</h2>
         <p className="text-[12px] leading-tight mb-2">
           Once you're satisfied with the result:
@@ -367,7 +367,7 @@ export const HelpContent: Record<string, React.ReactNode> = {
           {/* Note: The href here should ideally trigger setActiveSection and expand 'advanced-features' */}
           <a
             href="#advanced-features" // This might need a specific sub-section like #custom-palettes
-            className="text-[#3366cc] underline"
+            className="text-accent underline"
           >
             Advanced Features
           </a>{" "}
@@ -375,15 +375,15 @@ export const HelpContent: Record<string, React.ReactNode> = {
         </p>
       </div>
 
-      <div className="border-t border-[#999999] pt-2 mt-4">
-        <div className="text-[10px] text-[#666666]">Last updated: {new Date().toLocaleDateString()}</div>
+      <div className="border-t border-border pt-2 mt-4">
+        <div className="text-[10px] text-muted">Last updated: {new Date().toLocaleDateString()}</div>
       </div>
     </div>
   ),
 
   "ordered-dithering": (
     <div>
-      <h1 className="text-[18px] font-bold mb-3 pb-1 border-b-2 border-[#3366cc]">
+      <h1 className="text-[18px] font-bold mb-3 pb-1 border-b border-accent">
         Ordered Dithering
       </h1>
 
@@ -393,21 +393,21 @@ export const HelpContent: Record<string, React.ReactNode> = {
         </p>
       </div>
 
-      <div className="border border-[#999999] p-2 bg-[#e8e8e8] mb-4">
+      <div className="mb-4">
         <h2 className="text-[14px] font-bold mb-2">Bayer Dithering</h2>
         <p className="text-[12px] leading-tight mb-2">
           Bayer dithering is the most common form of ordered dithering. It uses a matrix of thresholds arranged in a specific pattern to create a regular, grid-like dithering effect. DIETER supports 2x2, 4x4, and 8x8 Bayer matrices.
         </p>
         <div className="grid grid-cols-2 gap-4">
-          <div className="border border-[#999999] p-2 bg-[#f8f8f8]">
+          <div className="mb-4">
             <h3 className="text-[12px] font-bold mb-1">2x2 Bayer Matrix</h3>
-            <pre className="text-[11px] font-mono bg-white p-1 border border-[#cccccc]">
+            <pre className="text-[11px] font-mono border p-1">
               {`0  2\n3  1`}
             </pre>
           </div>
-          <div className="border border-[#999999] p-2 bg-[#f8f8f8]">
+          <div className="mb-4">
             <h3 className="text-[12px] font-bold mb-1">4x4 Bayer Matrix</h3>
-            <pre className="text-[11px] font-mono bg-white p-1 border border-[#cccccc]">
+            <pre className="text-[11px] font-mono border p-1">
               {` 0  8  2 10\n12  4 14  6\n 3 11  1  9\n15  7 13  5`}
             </pre>
           </div>
@@ -418,7 +418,7 @@ export const HelpContent: Record<string, React.ReactNode> = {
       </div>
 
       <div className="grid grid-cols-2 gap-4 mb-4">
-        <div className="border border-[#999999] p-2 bg-[#e8e8e8]">
+        <div className="">
           <h2 className="text-[14px] font-bold mb-2">Characteristics</h2>
           <ul className="list-disc pl-4 text-[11px] space-y-1">
             <li><strong>Regular patterns:</strong> Creates consistent, repeating patterns</li>
@@ -428,7 +428,7 @@ export const HelpContent: Record<string, React.ReactNode> = {
             <li><strong>Retro aesthetic:</strong> Creates a distinctive "computer graphics" look</li>
           </ul>
         </div>
-        <div className="border border-[#999999] p-2 bg-[#e8e8e8]">
+        <div className="">
           <h2 className="text-[14px] font-bold mb-2">Best Applications</h2>
           <ul className="list-disc pl-4 text-[11px] space-y-1">
             <li><strong>Pixel art:</strong> Creates clean, consistent patterns</li>
@@ -440,40 +440,40 @@ export const HelpContent: Record<string, React.ReactNode> = {
         </div>
       </div>
 
-      <div className="border border-[#999999] p-2 bg-[#e8e8e8] mb-4">
+      <div className="mb-4">
         <h2 className="text-[14px] font-bold mb-2">Other Ordered Dithering Methods in DIETER</h2>
         <table className="w-full border-collapse text-[11px]">
           <thead>
-            <tr className="bg-[#d0d0d0]">
-              <th className="border border-[#999999] p-1 text-left">Method</th>
-              <th className="border border-[#999999] p-1 text-left">Description</th>
-              <th className="border border-[#999999] p-1 text-left">Characteristics</th>
+            <tr>
+              <th className="p-1 text-left">Method</th>
+              <th className="p-1 text-left">Description</th>
+              <th className="p-1 text-left">Characteristics</th>
             </tr>
           </thead>
           <tbody>
-            <tr className="bg-[#f0f0f0]">
-              <td className="border border-[#999999] p-1"><strong>Clustered-Dot</strong></td>
-              <td className="border border-[#999999] p-1">Creates clusters of dots similar to traditional halftoning</td>
-              <td className="border border-[#999999] p-1">Good for print simulation, mimics traditional printing techniques</td>
+            <tr>
+              <td className="p-1"><strong>Clustered-Dot</strong></td>
+              <td className="p-1">Creates clusters of dots similar to traditional halftoning</td>
+              <td className="p-1">Good for print simulation, mimics traditional printing techniques</td>
             </tr>
-            <tr className="bg-[#e8e8e8]">
-              <td className="border border-[#999999] p-1"><strong>Halftone</strong></td>
-              <td className="border border-[#999999] p-1">Uses dot or line patterns of varying sizes based on brightness</td>
-              <td className="border border-[#999999] p-1">Creates a newspaper, comic book, or screen print effect</td>
+            <tr>
+              <td className="p-1"><strong>Halftone</strong></td>
+              <td className="p-1">Uses dot or line patterns of varying sizes based on brightness</td>
+              <td className="p-1">Creates a newspaper, comic book, or screen print effect</td>
             </tr>
             {/* Add other ordered methods if available in the app, e.g., Blue Noise, Void-and-Cluster */}
-             <tr className="bg-[#f0f0f0]">
-              <td className="border border-[#999999] p-1"><strong>Blue Noise (Pattern)</strong></td>
-              <td className="border border-[#999999] p-1">Uses a pre-generated blue noise texture as a threshold map</td>
-              <td className="border border-[#999999] p-1">Reduces visible patterns compared to Bayer, more organic appearance, still fast</td>
+             <tr>
+              <td className="p-1"><strong>Blue Noise (Pattern)</strong></td>
+              <td className="p-1">Uses a pre-generated blue noise texture as a threshold map</td>
+              <td className="p-1">Reduces visible patterns compared to Bayer, more organic appearance, still fast</td>
             </tr>
           </tbody>
         </table>
       </div>
 
-      <div className="border border-[#999999] p-2 bg-[#ffffcc] mb-4">
+      <div className="mb-4">
         <h3 className="text-[12px] font-bold mb-1 flex items-center">
-          <span className="inline-block w-4 h-4 bg-[#ffcc33] text-black text-center mr-1 border border-[#cc9900]">
+          <span className="inline-block w-4 h-4 bg-accent text-white text-center mr-1 font-bold">
             !
           </span>
           Tip
@@ -483,41 +483,41 @@ export const HelpContent: Record<string, React.ReactNode> = {
         </p>
       </div>
 
-      <div className="border border-[#999999] p-2 bg-[#e8e8e8] mb-4">
+      <div className="mb-4">
         <h2 className="text-[14px] font-bold mb-2">Comparing Ordered Dithering vs. Error Diffusion</h2>
         <table className="w-full border-collapse text-[11px]">
           <thead>
-            <tr className="bg-[#d0d0d0]">
-              <th className="border border-[#999999] p-1 text-left">Aspect</th>
-              <th className="border border-[#999999] p-1 text-left">Ordered Dithering</th>
-              <th className="border border-[#999999] p-1 text-left">Error Diffusion</th>
+            <tr>
+              <th className="p-1 text-left">Aspect</th>
+              <th className="p-1 text-left">Ordered Dithering</th>
+              <th className="p-1 text-left">Error Diffusion</th>
             </tr>
           </thead>
           <tbody>
-            <tr className="bg-[#f0f0f0]">
-              <td className="border border-[#999999] p-1">Pattern</td>
-              <td className="border border-[#999999] p-1">Regular, grid-like, repeating</td>
-              <td className="border border-[#999999] p-1">Irregular, noise-like, organic</td>
+            <tr>
+              <td className="p-1">Pattern</td>
+              <td className="p-1">Regular, grid-like, repeating</td>
+              <td className="p-1">Irregular, noise-like, organic</td>
             </tr>
-            <tr className="bg-[#e8e8e8]">
-              <td className="border border-[#999999] p-1">Processing Speed</td>
-              <td className="border border-[#999999] p-1">Faster (parallelizable)</td>
-              <td className="border border-[#999999] p-1">Slower (sequential)</td>
+            <tr>
+              <td className="p-1">Processing Speed</td>
+              <td className="p-1">Faster (parallelizable)</td>
+              <td className="p-1">Slower (sequential)</td>
             </tr>
-            <tr className="bg-[#f0f0f0]">
-              <td className="border border-[#999999] p-1">Detail Preservation</td>
-              <td className="border border-[#999999] p-1">Can obscure fine details with patterns</td>
-              <td className="border border-[#999999] p-1">Generally better at preserving fine details</td>
+            <tr>
+              <td className="p-1">Detail Preservation</td>
+              <td className="p-1">Can obscure fine details with patterns</td>
+              <td className="p-1">Generally better at preserving fine details</td>
             </tr>
-            <tr className="bg-[#e8e8e8]">
-             <td className="border border-[#999999] p-1">Artifacts</td>
-             <td className="border border-[#999999] p-1">Obvious repeating patterns</td>
-             <td className="border border-[#999999] p-1">Worm-like structures, less repetitive</td>
+            <tr>
+             <td className="p-1">Artifacts</td>
+             <td className="p-1">Obvious repeating patterns</td>
+             <td className="p-1">Worm-like structures, less repetitive</td>
            </tr>
-           <tr className="bg-[#f0f0f0]">
-             <td className="border border-[#999999] p-1">Animation Suitability</td>
-             <td className="border border-[#999999] p-1">Good (patterns are static relative to frame)</td>
-             <td className="border border-[#999999] p-1">Can have temporal artifacts (crawling noise) if not handled carefully</td>
+           <tr>
+             <td className="p-1">Animation Suitability</td>
+             <td className="p-1">Good (patterns are static relative to frame)</td>
+             <td className="p-1">Can have temporal artifacts (crawling noise) if not handled carefully</td>
            </tr>
           </tbody>
         </table>
@@ -525,12 +525,12 @@ export const HelpContent: Record<string, React.ReactNode> = {
 
       <div className="text-[12px] mb-4">
          <p className="mb-2">
-           See the <a href="#error-diffusion" className="text-[#3366cc] underline">Error Diffusion Methods</a> section for details on those algorithms.
+           See the <a href="#error-diffusion" className="text-accent underline">Error Diffusion Methods</a> section for details on those algorithms.
          </p>
        </div>
 
-      <div className="border-t border-[#999999] pt-2 mt-4">
-        <div className="text-[10px] text-[#666666]">Last updated: {new Date().toLocaleDateString()}</div>
+      <div className="border-t border-border pt-2 mt-4">
+        <div className="text-[10px] text-muted">Last updated: {new Date().toLocaleDateString()}</div>
       </div>
     </div>
   ),
@@ -539,7 +539,7 @@ export const HelpContent: Record<string, React.ReactNode> = {
 
   "introduction": (
     <div>
-      <h1 className="text-[18px] font-bold mb-3 pb-1 border-b-2 border-[#3366cc]">
+      <h1 className="text-[18px] font-bold mb-3 pb-1 border-b border-accent">
         Introduction to DIETER
       </h1>
 
@@ -552,7 +552,7 @@ export const HelpContent: Record<string, React.ReactNode> = {
         </p>
       </div>
 
-      <div className="border border-[#999999] p-2 bg-[#e8e8e8] mb-4">
+      <div className="mb-4">
         <h2 className="text-[14px] font-bold mb-2">Key Features of DIETER</h2>
         <ul className="list-disc pl-5 text-[12px] space-y-1">
           <li>Wide range of Dithering Algorithms (Error Diffusion, Ordered, Random)</li>
@@ -568,7 +568,7 @@ export const HelpContent: Record<string, React.ReactNode> = {
       </div>
 
       <div className="grid grid-cols-2 gap-4 mb-4">
-        <div className="border border-[#999999] p-2 bg-[#f8f8f8]">
+        <div className="mb-4">
           <h3 className="text-[12px] font-bold uppercase mb-1">Use Cases</h3>
           <ul className="list-disc pl-4 text-[11px] space-y-1">
             <li>Creating pixel art aesthetics</li>
@@ -579,7 +579,7 @@ export const HelpContent: Record<string, React.ReactNode> = {
             <li>Exploring digital art history techniques</li>
           </ul>
         </div>
-        <div className="border border-[#999999] p-2 bg-[#f8f8f8]">
+        <div className="mb-4">
           <h3 className="text-[12px] font-bold uppercase mb-1">System Requirements</h3>
           <ul className="list-disc pl-4 text-[11px] space-y-1">
             <li>Modern web browser (Chrome, Firefox, Safari, Edge recommended)</li>
@@ -590,9 +590,9 @@ export const HelpContent: Record<string, React.ReactNode> = {
         </div>
       </div>
 
-      <div className="border border-[#999999] p-2 bg-[#ffffcc] mb-4">
+      <div className="mb-4">
         <h3 className="text-[12px] font-bold mb-1 flex items-center">
-          <span className="inline-block w-4 h-4 bg-[#ffcc33] text-black text-center mr-1 border border-[#cc9900]">
+          <span className="inline-block w-4 h-4 bg-accent text-white text-center mr-1 font-bold">
             !
           </span>
           Using This Help System
@@ -605,20 +605,20 @@ export const HelpContent: Record<string, React.ReactNode> = {
       <div className="text-[12px] mb-4">
         <p className="mb-2">
           To get started with using the application, proceed to the{" "}
-          <a href="#uploading-images" className="text-[#3366cc] underline">Uploading Images</a>{" "}
+          <a href="#uploading-images" className="text-accent underline">Uploading Images</a>{" "}
           section within "Getting Started".
         </p>
       </div>
 
-      <div className="border-t border-[#999999] pt-2 mt-4">
-        <div className="text-[10px] text-[#666666]">Last updated: {new Date().toLocaleDateString()}</div>
+      <div className="border-t border-border pt-2 mt-4">
+        <div className="text-[10px] text-muted">Last updated: {new Date().toLocaleDateString()}</div>
       </div>
     </div>
   ),
 
   "error-diffusion": (
     <div>
-      <h1 className="text-[18px] font-bold mb-3 pb-1 border-b-2 border-[#3366cc]">
+      <h1 className="text-[18px] font-bold mb-3 pb-1 border-b border-accent">
         Error Diffusion Dithering Methods
       </h1>
 
@@ -631,67 +631,67 @@ export const HelpContent: Record<string, React.ReactNode> = {
         </p>
       </div>
 
-      <div className="border border-[#999999] p-2 bg-[#e8e8e8] mb-4">
+      <div className="mb-4">
         <h2 className="text-[14px] font-bold mb-2">Common Error Diffusion Algorithms in DIETER</h2>
         <p className="text-[12px] leading-tight mb-2">
           DIETER includes several popular error diffusion algorithms, differing mainly in how they distribute the error:
         </p>
         <table className="w-full border-collapse text-[11px]">
          <thead>
-           <tr className="bg-[#d0d0d0]">
-             <th className="border border-[#999999] p-1 text-left">Algorithm</th>
-             <th className="border border-[#999999] p-1 text-left">Error Distribution Pattern (X = Current Pixel)</th>
-             <th className="border border-[#999999] p-1 text-left">Characteristics</th>
+           <tr>
+             <th className="p-1 text-left">Algorithm</th>
+             <th className="p-1 text-left">Error Distribution Pattern (X = Current Pixel)</th>
+             <th className="p-1 text-left">Characteristics</th>
            </tr>
          </thead>
          <tbody>
-           <tr className="bg-[#f0f0f0]">
-             <td className="border border-[#999999] p-1"><strong>Floyd-Steinberg</strong></td>
-             <td className="border border-[#999999] p-1 font-mono whitespace-pre">{`   X   7/16\n3/16 5/16 1/16`}</td>
-             <td className="border border-[#999999] p-1">Most common, good general purpose, relatively fast.</td>
+           <tr>
+             <td className="p-1"><strong>Floyd-Steinberg</strong></td>
+             <td className="p-1 font-mono whitespace-pre">{`   X   7/16\n3/16 5/16 1/16`}</td>
+             <td className="p-1">Most common, good general purpose, relatively fast.</td>
            </tr>
-           <tr className="bg-[#e8e8e8]">
-             <td className="border border-[#999999] p-1"><strong>Jarvis-Judice-Ninke</strong></td>
-             <td className="border border-[#999999] p-1 font-mono whitespace-pre">{`     X   7/48 5/48\n3/48 5/48 7/48 5/48 3/48\n1/48 3/48 5/48 3/48 1/48`}</td>
-             <td className="border border-[#999999] p-1">Diffuses error wider, smoother results, less structured noise, slower.</td>
+           <tr>
+             <td className="p-1"><strong>Jarvis-Judice-Ninke</strong></td>
+             <td className="p-1 font-mono whitespace-pre">{`     X   7/48 5/48\n3/48 5/48 7/48 5/48 3/48\n1/48 3/48 5/48 3/48 1/48`}</td>
+             <td className="p-1">Diffuses error wider, smoother results, less structured noise, slower.</td>
            </tr>
-           <tr className="bg-[#f0f0f0]">
-             <td className="border border-[#999999] p-1"><strong>Stucki</strong></td>
-              <td className="border border-[#999999] p-1 font-mono whitespace-pre">{`     X   8/42 4/42\n2/42 4/42 8/42 4/42 2/42\n1/42 2/42 4/42 2/42 1/42`}</td>
-             <td className="border border-[#999999] p-1">Similar to Jarvis but aims for cleaner edges, often perceived as sharper.</td>
+           <tr>
+             <td className="p-1"><strong>Stucki</strong></td>
+              <td className="p-1 font-mono whitespace-pre">{`     X   8/42 4/42\n2/42 4/42 8/42 4/42 2/42\n1/42 2/42 4/42 2/42 1/42`}</td>
+             <td className="p-1">Similar to Jarvis but aims for cleaner edges, often perceived as sharper.</td>
            </tr>
-           <tr className="bg-[#e8e8e8]">
-             <td className="border border-[#999999] p-1"><strong>Atkinson</strong></td>
-             <td className="border border-[#999999] p-1 font-mono whitespace-pre">{`   X   1/8  1/8\n1/8 1/8  1/8\n    1/8`}</td>
-             <td className="border border-[#999999] p-1">Developed for early Macs. Distributes less error, leading to higher contrast, potentially losing some detail but good for preserving shapes.</td>
+           <tr>
+             <td className="p-1"><strong>Atkinson</strong></td>
+             <td className="p-1 font-mono whitespace-pre">{`   X   1/8  1/8\n1/8 1/8  1/8\n    1/8`}</td>
+             <td className="p-1">Developed for early Macs. Distributes less error, leading to higher contrast, potentially losing some detail but good for preserving shapes.</td>
            </tr>
-           <tr className="bg-[#f0f0f0]">
-             <td className="border border-[#999999] p-1"><strong>Burkes</strong></td>
-             <td className="border border-[#999999] p-1 font-mono whitespace-pre">{`     X   8/32 4/32\n2/32 4/32 8/32 4/32 2/32`}</td>
-             <td className="border border-[#999999] p-1">Simplified Stucki/Jarvis, faster than them, good balance.</td>
+           <tr>
+             <td className="p-1"><strong>Burkes</strong></td>
+             <td className="p-1 font-mono whitespace-pre">{`     X   8/32 4/32\n2/32 4/32 8/32 4/32 2/32`}</td>
+             <td className="p-1">Simplified Stucki/Jarvis, faster than them, good balance.</td>
            </tr>
-           <tr className="bg-[#e8e8e8]">
-             <td className="border border-[#999999] p-1"><strong>Sierra (Sierra-3)</strong></td>
-             <td className="border border-[#999999] p-1 font-mono whitespace-pre">{`     X   5/32 3/32\n2/32 4/32 5/32 4/32 2/32\n     2/32 3/32 2/32`}</td>
-             <td className="border border-[#999999] p-1">Aims for fewer artifacts than Floyd-Steinberg.</td>
+           <tr>
+             <td className="p-1"><strong>Sierra (Sierra-3)</strong></td>
+             <td className="p-1 font-mono whitespace-pre">{`     X   5/32 3/32\n2/32 4/32 5/32 4/32 2/32\n     2/32 3/32 2/32`}</td>
+             <td className="p-1">Aims for fewer artifacts than Floyd-Steinberg.</td>
            </tr>
-           <tr className="bg-[#f0f0f0]">
-             <td className="border border-[#999999] p-1"><strong>Sierra-2</strong></td>
-             <td className="border border-[#999999] p-1 font-mono whitespace-pre">{`   X   4/16 3/16\n1/16 2/16 3/16 2/16 1/16`}</td>
-             <td className="border border-[#999999] p-1">Faster two-row version of Sierra.</td>
+           <tr>
+             <td className="p-1"><strong>Sierra-2</strong></td>
+             <td className="p-1 font-mono whitespace-pre">{`   X   4/16 3/16\n1/16 2/16 3/16 2/16 1/16`}</td>
+             <td className="p-1">Faster two-row version of Sierra.</td>
            </tr>
-            <tr className="bg-[#e8e8e8]">
-             <td className="border border-[#999999] p-1"><strong>Sierra-Lite</strong></td>
-             <td className="border border-[#999999] p-1 font-mono whitespace-pre">{` X  2/4\n1/4 1/4`}</td>
-             <td className="border border-[#999999] p-1">Very simple and fast, minimal diffusion.</td>
+            <tr>
+             <td className="p-1"><strong>Sierra-Lite</strong></td>
+             <td className="p-1 font-mono whitespace-pre">{` X  2/4\n1/4 1/4`}</td>
+             <td className="p-1">Very simple and fast, minimal diffusion.</td>
            </tr>
          </tbody>
         </table>
       </div>
 
-      <div className="border border-[#999999] p-2 bg-[#ffffcc] mb-4">
+      <div className="mb-4">
         <h3 className="text-[12px] font-bold mb-1 flex items-center">
-          <span className="inline-block w-4 h-4 bg-[#ffcc33] text-black text-center mr-1 border border-[#cc9900]">
+          <span className="inline-block w-4 h-4 bg-accent text-white text-center mr-1 font-bold">
             !
           </span>
           Diffusion Strength Control
@@ -711,19 +711,19 @@ export const HelpContent: Record<string, React.ReactNode> = {
 
       <div className="text-[12px] mb-4">
          <p className="mb-2">
-           Compare these with methods described in the <a href="#ordered-dithering" className="text-[#3366cc] underline">Ordered Dithering</a> section.
+           Compare these with methods described in the <a href="#ordered-dithering" className="text-accent underline">Ordered Dithering</a> section.
          </p>
        </div>
 
-      <div className="border-t border-[#999999] pt-2 mt-4">
-        <div className="text-[10px] text-[#666666]">Last updated: {new Date().toLocaleDateString()}</div>
+      <div className="border-t border-border pt-2 mt-4">
+        <div className="text-[10px] text-muted">Last updated: {new Date().toLocaleDateString()}</div>
       </div>
     </div>
   ),
 
    "other-methods": (
     <div>
-      <h1 className="text-[18px] font-bold mb-3 pb-1 border-b-2 border-[#3366cc]">
+      <h1 className="text-[18px] font-bold mb-3 pb-1 border-b border-accent">
         Other Dithering Methods
       </h1>
 
@@ -733,7 +733,7 @@ export const HelpContent: Record<string, React.ReactNode> = {
         </p>
       </div>
 
-      <div className="border border-[#999999] p-2 bg-[#e8e8e8] mb-4">
+      <div className="mb-4">
         <h2 className="text-[14px] font-bold mb-2">Random / Stochastic Dithering</h2>
         <p className="text-[12px] leading-tight mb-2">
           This is one of the simplest forms. For each pixel, a random number is added to its brightness (or each color channel) before comparing it to a threshold (often 50%).
@@ -745,23 +745,23 @@ export const HelpContent: Record<string, React.ReactNode> = {
          </ul>
       </div>
 
-      <div className="border border-[#999999] p-2 bg-[#e8e8e8] mb-4">
+      <div className="mb-4">
         <h2 className="text-[14px] font-bold mb-2">Pattern Dithering (Optional)</h2>
         <p className="text-[12px] leading-tight mb-2">
           This involves replacing blocks of pixels with predefined patterns based on the average brightness or color of the block. It's less common in general-purpose tools but can create unique stylistic effects. DIETER might implement this in the future.
         </p>
       </div>
 
-       <div className="border border-[#999999] p-2 bg-[#e8e8e8] mb-4">
+       <div className="mb-4">
         <h2 className="text-[14px] font-bold mb-2">Riemersma Dithering (Optional)</h2>
         <p className="text-[12px] leading-tight mb-2">
          An error-diffusion-like method that processes pixels along a Hilbert curve instead of scanlines. This can produce patterns with different structural characteristics compared to standard error diffusion. DIETER might implement this as an advanced option.
         </p>
       </div>
 
-       <div className="border border-[#999999] p-2 bg-[#ffffcc] mb-4">
+       <div className="mb-4">
         <h3 className="text-[12px] font-bold mb-1 flex items-center">
-          <span className="inline-block w-4 h-4 bg-[#ffcc33] text-black text-center mr-1 border border-[#cc9900]">
+          <span className="inline-block w-4 h-4 bg-accent text-white text-center mr-1 font-bold">
             !
           </span>
           Experimentation
@@ -772,15 +772,15 @@ export const HelpContent: Record<string, React.ReactNode> = {
       </div>
 
 
-      <div className="border-t border-[#999999] pt-2 mt-4">
-        <div className="text-[10px] text-[#666666]">Last updated: {new Date().toLocaleDateString()}</div>
+      <div className="border-t border-border pt-2 mt-4">
+        <div className="text-[10px] text-muted">Last updated: {new Date().toLocaleDateString()}</div>
       </div>
     </div>
   ),
 
    "median-cut": (
      <div>
-       <h1 className="text-[18px] font-bold mb-3 pb-1 border-b-2 border-[#3366cc]">
+       <h1 className="text-[18px] font-bold mb-3 pb-1 border-b border-accent">
          Color Quantization: Median Cut
        </h1>
        <div className="mb-4">
@@ -799,7 +799,7 @@ export const HelpContent: Record<string, React.ReactNode> = {
             <li>The final palette color for each box is typically the average of all the colors within that box.</li>
           </ol>
        </div>
-        <div className="border border-[#999999] p-2 bg-[#e8e8e8] mb-4">
+        <div className="mb-4">
           <h2 className="text-[14px] font-bold mb-2">Characteristics</h2>
           <ul className="list-disc pl-5 text-[12px] space-y-1">
               <li>Relatively simple and fast to compute.</li>
@@ -808,15 +808,15 @@ export const HelpContent: Record<string, React.ReactNode> = {
               <li>May sometimes create suboptimal splits if the color distribution is unusual.</li>
           </ul>
       </div>
-       <div className="border-t border-[#999999] pt-2 mt-4">
-         <div className="text-[10px] text-[#666666]">Last updated: {new Date().toLocaleDateString()}</div>
+       <div className="border-t border-border pt-2 mt-4">
+         <div className="text-[10px] text-muted">Last updated: {new Date().toLocaleDateString()}</div>
        </div>
      </div>
    ),
 
    "k-means": (
      <div>
-       <h1 className="text-[18px] font-bold mb-3 pb-1 border-b-2 border-[#3366cc]">
+       <h1 className="text-[18px] font-bold mb-3 pb-1 border-b border-accent">
          Color Quantization: K-Means Clustering
        </h1>
        <div className="mb-4">
@@ -832,7 +832,7 @@ export const HelpContent: Record<string, React.ReactNode> = {
             <li>The final positions of the K cluster centers become the colors in the generated palette.</li>
           </ol>
        </div>
-        <div className="border border-[#999999] p-2 bg-[#e8e8e8] mb-4">
+        <div className="mb-4">
           <h2 className="text-[14px] font-bold mb-2">Characteristics</h2>
           <ul className="list-disc pl-5 text-[12px] space-y-1">
               <li>Can often produce higher quality palettes than Median Cut, especially for images with distinct color groups.</li>
@@ -841,15 +841,15 @@ export const HelpContent: Record<string, React.ReactNode> = {
               <li>Tends to find centers of dense color regions.</li>
           </ul>
       </div>
-       <div className="border-t border-[#999999] pt-2 mt-4">
-         <div className="text-[10px] text-[#666666]">Last updated: {new Date().toLocaleDateString()}</div>
+       <div className="border-t border-border pt-2 mt-4">
+         <div className="text-[10px] text-muted">Last updated: {new Date().toLocaleDateString()}</div>
        </div>
      </div>
    ),
 
    "octree": (
      <div>
-       <h1 className="text-[18px] font-bold mb-3 pb-1 border-b-2 border-[#3366cc]">
+       <h1 className="text-[18px] font-bold mb-3 pb-1 border-b border-accent">
          Color Quantization: Octree
        </h1>
        <div className="mb-4">
@@ -865,7 +865,7 @@ export const HelpContent: Record<string, React.ReactNode> = {
             <li>The final palette colors are derived from the average color of the pixels represented by each remaining leaf node.</li>
           </ol>
        </div>
-        <div className="border border-[#999999] p-2 bg-[#e8e8e8] mb-4">
+        <div className="mb-4">
           <h2 className="text-[14px] font-bold mb-2">Characteristics</h2>
           <ul className="list-disc pl-5 text-[12px] space-y-1">
               <li>Memory efficient compared to storing all colors initially.</li>
@@ -874,15 +874,15 @@ export const HelpContent: Record<string, React.ReactNode> = {
               <li>Widely used in graphics applications (e.g., GIF generation).</li>
           </ul>
       </div>
-       <div className="border-t border-[#999999] pt-2 mt-4">
-         <div className="text-[10px] text-[#666666]">Last updated: {new Date().toLocaleDateString()}</div>
+       <div className="border-t border-border pt-2 mt-4">
+         <div className="text-[10px] text-muted">Last updated: {new Date().toLocaleDateString()}</div>
        </div>
      </div>
    ),
 
    "neuquant": (
      <div>
-       <h1 className="text-[18px] font-bold mb-3 pb-1 border-b-2 border-[#3366cc]">
+       <h1 className="text-[18px] font-bold mb-3 pb-1 border-b border-accent">
          Color Quantization: NeuQuant
        </h1>
        <div className="mb-4">
@@ -899,7 +899,7 @@ export const HelpContent: Record<string, React.ReactNode> = {
             <li>After training, the final positions of the neurons represent the colors in the generated palette.</li>
           </ol>
        </div>
-        <div className="border border-[#999999] p-2 bg-[#e8e8e8] mb-4">
+        <div className="mb-4">
           <h2 className="text-[14px] font-bold mb-2">Characteristics</h2>
           <ul className="list-disc pl-5 text-[12px] space-y-1">
               <li>Often produces very high-quality palettes, preserving subtle color variations well.</li>
@@ -908,15 +908,15 @@ export const HelpContent: Record<string, React.ReactNode> = {
               <li>Particularly effective for images with smooth gradients or complex color distributions.</li>
           </ul>
       </div>
-       <div className="border-t border-[#999999] pt-2 mt-4">
-         <div className="text-[10px] text-[#666666]">Last updated: {new Date().toLocaleDateString()}</div>
+       <div className="border-t border-border pt-2 mt-4">
+         <div className="text-[10px] text-muted">Last updated: {new Date().toLocaleDateString()}</div>
        </div>
      </div>
    ),
 
   "brightness-contrast": (
      <div>
-       <h1 className="text-[18px] font-bold mb-3 pb-1 border-b-2 border-[#3366cc]">
+       <h1 className="text-[18px] font-bold mb-3 pb-1 border-b border-accent">
          Image Adjustments: Brightness & Contrast
        </h1>
        <div className="mb-4">
@@ -924,7 +924,7 @@ export const HelpContent: Record<string, React.ReactNode> = {
            These controls allow you to modify the tonal range of the input image *before* color quantization and dithering are applied. This can significantly impact the final dithered result.
          </p>
        </div>
-        <div className="border border-[#999999] p-2 bg-[#e8e8e8] mb-4">
+        <div className="mb-4">
           <h2 className="text-[14px] font-bold mb-2">Brightness</h2>
           <p className="text-[12px] leading-tight mb-2">
             Adjusts the overall lightness or darkness of the image.
@@ -934,7 +934,7 @@ export const HelpContent: Record<string, React.ReactNode> = {
               <li><strong>Decreasing Brightness:</strong> Makes the image darker. Can add richness but may obscure shadow details.</li>
           </ul>
         </div>
-        <div className="border border-[#999999] p-2 bg-[#e8e8e8] mb-4">
+        <div className="mb-4">
           <h2 className="text-[14px] font-bold mb-2">Contrast</h2>
           <p className="text-[12px] leading-tight mb-2">
             Adjusts the difference between the light and dark areas of the image.
@@ -944,9 +944,9 @@ export const HelpContent: Record<string, React.ReactNode> = {
               <li><strong>Decreasing Contrast:</strong> Reduces the difference between light and dark areas, making the image look flatter or softer. Can bring out details in very bright or dark areas but may reduce overall impact. Low contrast can lead to muddier dither results.</li>
           </ul>
        </div>
-        <div className="border border-[#999999] p-2 bg-[#ffffcc] mb-4">
+        <div className="mb-4">
          <h3 className="text-[12px] font-bold mb-1 flex items-center">
-           <span className="inline-block w-4 h-4 bg-[#ffcc33] text-black text-center mr-1 border border-[#cc9900]">
+           <span className="inline-block w-4 h-4 bg-accent text-white text-center mr-1 font-bold">
              !
            </span>
            Impact on Dithering
@@ -955,15 +955,15 @@ export const HelpContent: Record<string, React.ReactNode> = {
            Adjusting brightness and contrast before dithering is crucial. For example, increasing contrast before dithering to a black and white palette will often result in a much clearer and more defined dithered image compared to dithering a low-contrast original. Experiment to see how these controls affect the final look with different dithering algorithms and palettes.
          </p>
        </div>
-       <div className="border-t border-[#999999] pt-2 mt-4">
-         <div className="text-[10px] text-[#666666]">Last updated: {new Date().toLocaleDateString()}</div>
+       <div className="border-t border-border pt-2 mt-4">
+         <div className="text-[10px] text-muted">Last updated: {new Date().toLocaleDateString()}</div>
        </div>
      </div>
    ),
 
    "saturation": (
      <div>
-       <h1 className="text-[18px] font-bold mb-3 pb-1 border-b-2 border-[#3366cc]">
+       <h1 className="text-[18px] font-bold mb-3 pb-1 border-b border-accent">
          Image Adjustments: Saturation
        </h1>
        <div className="mb-4">
@@ -971,22 +971,22 @@ export const HelpContent: Record<string, React.ReactNode> = {
            The Saturation control adjusts the intensity or purity of the colors in the input image before quantization and dithering.
          </p>
        </div>
-        <div className="border border-[#999999] p-2 bg-[#e8e8e8] mb-4">
+        <div className="mb-4">
           <h2 className="text-[14px] font-bold mb-2">Adjusting Saturation</h2>
           <ul className="list-disc pl-5 text-[12px] space-y-1">
               <li><strong>Increasing Saturation:</strong> Makes colors appear more vivid and intense. Over-saturation can lead to unnatural colors and loss of detail.</li>
               <li><strong>Decreasing Saturation:</strong> Makes colors appear duller or muted. Reducing saturation to its minimum value (0% or -100 depending on the control) will convert the image to grayscale.</li>
           </ul>
         </div>
-         <div className="border border-[#999999] p-2 bg-[#e8e8e8] mb-4">
+         <div className="mb-4">
           <h2 className="text-[14px] font-bold mb-2">Grayscale Toggle</h2>
           <p className="text-[12px] leading-tight mb-2">
             DIETER also provides a dedicated "Grayscale" toggle. This is typically equivalent to setting Saturation to its minimum value. Applying grayscale before quantization and dithering ensures that the process works only with luminance values, which is essential for achieving classic black & white or grayscale dither effects, even if the chosen palette technically contains colors.
           </p>
         </div>
-       <div className="border border-[#999999] p-2 bg-[#ffffcc] mb-4">
+       <div className="mb-4">
          <h3 className="text-[12px] font-bold mb-1 flex items-center">
-           <span className="inline-block w-4 h-4 bg-[#ffcc33] text-black text-center mr-1 border border-[#cc9900]">
+           <span className="inline-block w-4 h-4 bg-accent text-white text-center mr-1 font-bold">
              !
            </span>
            Interaction with Palettes
@@ -995,15 +995,15 @@ export const HelpContent: Record<string, React.ReactNode> = {
            Adjusting saturation primarily affects the result when using color palettes or color quantization algorithms that generate color palettes. If you intend to dither to a purely grayscale or black & white palette, it's often best to use the Grayscale toggle first to ensure accurate luminance mapping. However, leaving saturation high before quantizing to a limited *color* palette (like CGA or Game Boy) can help the quantization algorithm pick more vibrant representative colors.
          </p>
        </div>
-       <div className="border-t border-[#999999] pt-2 mt-4">
-         <div className="text-[10px] text-[#666666]">Last updated: {new Date().toLocaleDateString()}</div>
+       <div className="border-t border-border pt-2 mt-4">
+         <div className="text-[10px] text-muted">Last updated: {new Date().toLocaleDateString()}</div>
        </div>
      </div>
    ),
 
    "blur-sharpen": (
      <div>
-       <h1 className="text-[18px] font-bold mb-3 pb-1 border-b-2 border-[#3366cc]">
+       <h1 className="text-[18px] font-bold mb-3 pb-1 border-b border-accent">
          Image Adjustments: Blur & Sharpen
        </h1>
        <div className="mb-4">
@@ -1011,7 +1011,7 @@ export const HelpContent: Record<string, React.ReactNode> = {
            These controls modify the perceived sharpness or softness of the input image prior to dithering.
          </p>
        </div>
-        <div className="border border-[#999999] p-2 bg-[#e8e8e8] mb-4">
+        <div className="mb-4">
           <h2 className="text-[14px] font-bold mb-2">Blur</h2>
           <p className="text-[12px] leading-tight mb-2">
             Applying blur softens the image by averaging pixel values with their neighbors.
@@ -1021,7 +1021,7 @@ export const HelpContent: Record<string, React.ReactNode> = {
               <li><strong>Impact on Dithering:</strong> Can lead to smoother, less busy dither patterns, especially with error diffusion. May reduce the distinctness of ordered dither patterns. Useful for removing unwanted texture before applying a dither texture.</li>
           </ul>
         </div>
-        <div className="border border-[#999999] p-2 bg-[#e8e8e8] mb-4">
+        <div className="mb-4">
           <h2 className="text-[14px] font-bold mb-2">Sharpen</h2>
           <p className="text-[12px] leading-tight mb-2">
             Applying sharpen enhances edges and details by increasing the contrast between adjacent pixels.
@@ -1031,9 +1031,9 @@ export const HelpContent: Record<string, React.ReactNode> = {
               <li><strong>Impact on Dithering:</strong> Can lead to more defined and pronounced dither patterns, emphasizing edges. May make error diffusion noise more apparent. Useful for bringing out details you want the dither pattern to follow.</li>
           </ul>
        </div>
-       <div className="border border-[#999999] p-2 bg-[#ffffcc] mb-4">
+       <div className="mb-4">
          <h3 className="text-[12px] font-bold mb-1 flex items-center">
-           <span className="inline-block w-4 h-4 bg-[#ffcc33] text-black text-center mr-1 border border-[#cc9900]">
+           <span className="inline-block w-4 h-4 bg-accent text-white text-center mr-1 font-bold">
              !
            </span>
            Subtle Adjustments
@@ -1042,15 +1042,15 @@ export const HelpContent: Record<string, React.ReactNode> = {
            Blur and sharpen effects can heavily influence the dithering outcome. Often, only subtle adjustments are needed. Excessive blurring can make the dithered image look muddy, while excessive sharpening can make it look harsh and noisy. Use these tools judiciously to prepare the image texture for the dithering process.
          </p>
        </div>
-       <div className="border-t border-[#999999] pt-2 mt-4">
-         <div className="text-[10px] text-[#666666]">Last updated: {new Date().toLocaleDateString()}</div>
+       <div className="border-t border-border pt-2 mt-4">
+         <div className="text-[10px] text-muted">Last updated: {new Date().toLocaleDateString()}</div>
        </div>
      </div>
    ),
 
    "other-adjustments": (
       <div>
-        <h1 className="text-[18px] font-bold mb-3 pb-1 border-b-2 border-[#3366cc]">
+        <h1 className="text-[18px] font-bold mb-3 pb-1 border-b border-accent">
           Image Adjustments: Other Effects
         </h1>
         <div className="mb-4">
@@ -1058,7 +1058,7 @@ export const HelpContent: Record<string, React.ReactNode> = {
             DIETER includes additional pre-processing effects to further modify the input image before dithering.
           </p>
         </div>
-         <div className="border border-[#999999] p-2 bg-[#e8e8e8] mb-4">
+         <div className="mb-4">
            <h2 className="text-[14px] font-bold mb-2">Invert Colors</h2>
            <p className="text-[12px] leading-tight mb-2">
              This toggle reverses the colors of the image, like a photographic negative.
@@ -1068,7 +1068,7 @@ export const HelpContent: Record<string, React.ReactNode> = {
                <li><strong>Impact on Dithering:</strong> Drastically changes the input for dithering, leading to an inverted final result. Can be used for creative effects or to correct negative scans.</li>
            </ul>
          </div>
-         <div className="border border-[#999999] p-2 bg-[#e8e8e8] mb-4">
+         <div className="mb-4">
            <h2 className="text-[14px] font-bold mb-2">Posterization</h2>
            <p className="text-[12px] leading-tight mb-2">
              Reduces the number of continuous color levels within the image *before* palette quantization. It creates broad, flat areas of color with abrupt changes between them.
@@ -1079,9 +1079,9 @@ export const HelpContent: Record<string, React.ReactNode> = {
            </ul>
         </div>
         {/* Add other effects mentioned in features if applicable */}
-        <div className="border border-[#999999] p-2 bg-[#ffffcc] mb-4">
+        <div className="mb-4">
          <h3 className="text-[12px] font-bold mb-1 flex items-center">
-           <span className="inline-block w-4 h-4 bg-[#ffcc33] text-black text-center mr-1 border border-[#cc9900]">
+           <span className="inline-block w-4 h-4 bg-accent text-white text-center mr-1 font-bold">
              !
            </span>
            Order of Operations
@@ -1090,15 +1090,15 @@ export const HelpContent: Record<string, React.ReactNode> = {
            Keep in mind that these pre-processing effects are typically applied *before* the main color quantization (if used) and the dithering algorithm itself. Changing these settings modifies the input data that the subsequent steps will work on.
          </p>
        </div>
-        <div className="border-t border-[#999999] pt-2 mt-4">
-          <div className="text-[10px] text-[#666666]">Last updated: {new Date().toLocaleDateString()}</div>
+        <div className="border-t border-border pt-2 mt-4">
+          <div className="text-[10px] text-muted">Last updated: {new Date().toLocaleDateString()}</div>
         </div>
       </div>
     ),
 
    "batch-overview": ( // Placeholder - Batch processing not in final feature list
      <div>
-       <h1 className="text-[18px] font-bold mb-3 pb-1 border-b-2 border-[#3366cc]">
+       <h1 className="text-[18px] font-bold mb-3 pb-1 border-b border-accent">
          Batch Processing Overview (Future Feature)
        </h1>
        <div className="mb-4">
@@ -1109,7 +1109,7 @@ export const HelpContent: Record<string, React.ReactNode> = {
            (Note: This feature might not be implemented in the current version of DIETER.)
          </p>
        </div>
-       <div className="border border-[#999999] p-2 bg-[#e8e8e8] mb-4">
+       <div className="mb-4">
           <h2 className="text-[14px] font-bold mb-2">Potential Benefits</h2>
           <ul className="list-disc pl-5 text-[12px] space-y-1">
               <li>Saves time when processing many similar images.</li>
@@ -1117,15 +1117,15 @@ export const HelpContent: Record<string, React.ReactNode> = {
               <li>Useful for generating sprite sheets or texture sets with a consistent style.</li>
           </ul>
        </div>
-       <div className="border-t border-[#999999] pt-2 mt-4">
-         <div className="text-[10px] text-[#666666]">Last updated: {new Date().toLocaleDateString()}</div>
+       <div className="border-t border-border pt-2 mt-4">
+         <div className="text-[10px] text-muted">Last updated: {new Date().toLocaleDateString()}</div>
        </div>
      </div>
    ),
 
    "batch-workflow": ( // Placeholder - Batch processing not in final feature list
      <div>
-       <h1 className="text-[18px] font-bold mb-3 pb-1 border-b-2 border-[#3366cc]">
+       <h1 className="text-[18px] font-bold mb-3 pb-1 border-b border-accent">
          Batch Workflow (Future Feature)
        </h1>
        <div className="mb-4">
@@ -1144,15 +1144,15 @@ export const HelpContent: Record<string, React.ReactNode> = {
             <li>Download the processed images, potentially as individual files or a zip archive.</li>
           </ol>
        </div>
-       <div className="border-t border-[#999999] pt-2 mt-4">
-         <div className="text-[10px] text-[#666666]">Last updated: {new Date().toLocaleDateString()}</div>
+       <div className="border-t border-border pt-2 mt-4">
+         <div className="text-[10px] text-muted">Last updated: {new Date().toLocaleDateString()}</div>
        </div>
      </div>
    ),
 
    "custom-palettes": (
      <div>
-       <h1 className="text-[18px] font-bold mb-3 pb-1 border-b-2 border-[#3366cc]">
+       <h1 className="text-[18px] font-bold mb-3 pb-1 border-b border-accent">
          Advanced Features: Custom Palettes
        </h1>
        <div className="mb-4">
@@ -1160,7 +1160,7 @@ export const HelpContent: Record<string, React.ReactNode> = {
            Beyond the predefined palettes (like B&W, Grayscale, CGA, Game Boy) and automatically generated palettes (via Median Cut, K-Means, etc.), DIETER allows you to define and use your own custom color palettes.
          </p>
        </div>
-        <div className="border border-[#999999] p-2 bg-[#e8e8e8] mb-4">
+        <div className="mb-4">
           <h2 className="text-[14px] font-bold mb-2">Defining a Custom Palette</h2>
           <p className="text-[12px] leading-tight mb-2">
             Custom palettes are typically entered as a list of color values. Common input methods include:
@@ -1174,7 +1174,7 @@ export const HelpContent: Record<string, React.ReactNode> = {
              Refer to the DIETER interface for the specific method(s) supported for custom palette input.
            </p>
         </div>
-       <div className="border border-[#999999] p-2 bg-[#e8e8e8] mb-4">
+       <div className="mb-4">
           <h2 className="text-[14px] font-bold mb-2">Using a Custom Palette</h2>
           <ol className="list-decimal pl-5 text-[12px] space-y-1">
              <li>Define or import your custom palette using the available controls.</li>
@@ -1182,9 +1182,9 @@ export const HelpContent: Record<string, React.ReactNode> = {
              <li>The dithering algorithm will now use only the colors present in your custom palette for the output image.</li>
            </ol>
        </div>
-        <div className="border border-[#999999] p-2 bg-[#ffffcc] mb-4">
+        <div className="mb-4">
          <h3 className="text-[12px] font-bold mb-1 flex items-center">
-           <span className="inline-block w-4 h-4 bg-[#ffcc33] text-black text-center mr-1 border border-[#cc9900]">
+           <span className="inline-block w-4 h-4 bg-accent text-white text-center mr-1 font-bold">
              !
            </span>
            Creative Control
@@ -1193,15 +1193,15 @@ export const HelpContent: Record<string, React.ReactNode> = {
            Custom palettes offer immense creative control. You can force an image into a specific artistic color scheme, match a corporate brand guide, or experiment with highly limited palettes for extreme stylization. The quality of the result heavily depends on how well the chosen palette relates to the original image's colors.
          </p>
        </div>
-       <div className="border-t border-[#999999] pt-2 mt-4">
-         <div className="text-[10px] text-[#666666]">Last updated: {new Date().toLocaleDateString()}</div>
+       <div className="border-t border-border pt-2 mt-4">
+         <div className="text-[10px] text-muted">Last updated: {new Date().toLocaleDateString()}</div>
        </div>
      </div>
    ),
 
    "histogram": (
      <div>
-       <h1 className="text-[18px] font-bold mb-3 pb-1 border-b-2 border-[#3366cc]">
+       <h1 className="text-[18px] font-bold mb-3 pb-1 border-b border-accent">
          Advanced Features: Histogram Analysis
        </h1>
        <div className="mb-4">
@@ -1209,7 +1209,7 @@ export const HelpContent: Record<string, React.ReactNode> = {
            DIETER includes a Histogram panel that visually represents the tonal distribution of the image. It shows how many pixels exist at each brightness level.
          </p>
        </div>
-        <div className="border border-[#999999] p-2 bg-[#e8e8e8] mb-4">
+        <div className="mb-4">
           <h2 className="text-[14px] font-bold mb-2">Understanding the Histogram</h2>
           <ul className="list-disc pl-5 text-[12px] space-y-1">
               <li><strong>X-axis:</strong> Represents the brightness levels, typically from 0 (black) on the left to 255 (white) on the right.</li>
@@ -1218,7 +1218,7 @@ export const HelpContent: Record<string, React.ReactNode> = {
               <li><strong>Source Image:</strong> The histogram usually reflects the state of the image *after* pre-processing adjustments (like brightness/contrast) but *before* quantization and dithering. Check the interface for specifics.</li>
           </ul>
         </div>
-       <div className="border border-[#999999] p-2 bg-[#e8e8e8] mb-4">
+       <div className="mb-4">
           <h2 className="text-[14px] font-bold mb-2">How to Use It</h2>
           <ul className="list-disc pl-5 text-[12px] space-y-1">
               <li><strong>Assessing Exposure:</strong> A histogram bunched to the left indicates a dark (underexposed) image. Bunched to the right indicates a bright (overexposed) image. A good spread suggests a well-exposed image with detail across the tonal range.</li>
@@ -1227,15 +1227,15 @@ export const HelpContent: Record<string, React.ReactNode> = {
               <li><strong>Predicting Dithering Results:</strong> An image with distinct peaks in the histogram might quantize more cleanly than one with a very flat, spread-out histogram, although the specific quantization algorithm also plays a major role.</li>
           </ul>
        </div>
-       <div className="border-t border-[#999999] pt-2 mt-4">
-         <div className="text-[10px] text-[#666666]">Last updated: {new Date().toLocaleDateString()}</div>
+       <div className="border-t border-border pt-2 mt-4">
+         <div className="text-[10px] text-muted">Last updated: {new Date().toLocaleDateString()}</div>
        </div>
      </div>
    ),
 
    "processing-log": (
      <div>
-       <h1 className="text-[18px] font-bold mb-3 pb-1 border-b-2 border-[#3366cc]">
+       <h1 className="text-[18px] font-bold mb-3 pb-1 border-b border-accent">
          Advanced Features: Processing Log
        </h1>
        <div className="mb-4">
@@ -1243,7 +1243,7 @@ export const HelpContent: Record<string, React.ReactNode> = {
            The Processing Log panel provides a textual record of the operations performed on the image and potentially performance information or warnings.
          </p>
        </div>
-        <div className="border border-[#999999] p-2 bg-[#e8e8e8] mb-4">
+        <div className="mb-4">
           <h2 className="text-[14px] font-bold mb-2">Information Displayed</h2>
           <p className="text-[12px] leading-tight mb-2">
             The log might include entries for:
@@ -1258,7 +1258,7 @@ export const HelpContent: Record<string, React.ReactNode> = {
               <li>Errors (e.g., "Failed to load image", "Invalid custom palette format")</li>
           </ul>
         </div>
-       <div className="border border-[#999999] p-2 bg-[#e8e8e8] mb-4">
+       <div className="mb-4">
           <h2 className="text-[14px] font-bold mb-2">Log Controls</h2>
            <p className="text-[12px] leading-tight mb-2">
             The panel may offer controls such as:
@@ -1269,15 +1269,15 @@ export const HelpContent: Record<string, React.ReactNode> = {
              <li><strong>Log Level:</strong> Allows filtering messages (e.g., show only Errors, Warnings, Info, or All).</li>
            </ul>
        </div>
-       <div className="border-t border-[#999999] pt-2 mt-4">
-         <div className="text-[10px] text-[#666666]">Last updated: {new Date().toLocaleDateString()}</div>
+       <div className="border-t border-border pt-2 mt-4">
+         <div className="text-[10px] text-muted">Last updated: {new Date().toLocaleDateString()}</div>
        </div>
      </div>
    ),
 
    "troubleshooting": (
     <div>
-      <h1 className="text-[18px] font-bold mb-3 pb-1 border-b-2 border-[#3366cc]">
+      <h1 className="text-[18px] font-bold mb-3 pb-1 border-b border-accent">
         Troubleshooting
       </h1>
       <div className="mb-4">
@@ -1285,14 +1285,14 @@ export const HelpContent: Record<string, React.ReactNode> = {
           If you encounter issues while using DIETER, consider these common problems and solutions.
         </p>
       </div>
-       <div className="border border-[#999999] p-2 bg-[#e8e8e8] mb-4">
+       <div className="mb-4">
          <h2 className="text-[14px] font-bold mb-2">Image Upload Issues</h2>
          <ul className="list-disc pl-5 text-[12px] space-y-1">
-             <li><strong>File not uploading:</strong> Ensure the file format is supported (JPG, PNG, GIF, WEBP) and within the size limits (see <a href="#uploading-images" className="text-[#3366cc] underline">Uploading Images</a>). Try a different image or format. Check browser console (F12) for errors.</li>
+             <li><strong>File not uploading:</strong> Ensure the file format is supported (JPG, PNG, GIF, WEBP) and within the size limits (see <a href="#uploading-images" className="text-accent underline">Uploading Images</a>). Try a different image or format. Check browser console (F12) for errors.</li>
             <li><strong>Image appears distorted after upload:</strong> This is unlikely unless the source file is corrupted. Try re-saving the source image.</li>
          </ul>
        </div>
-      <div className="border border-[#999999] p-2 bg-[#e8e8e8] mb-4">
+      <div className="mb-4">
          <h2 className="text-[14px] font-bold mb-2">Slow Performance / Freezing</h2>
          <ul className="list-disc pl-5 text-[12px] space-y-1">
              <li><strong>Large Images:</strong> Processing very large images (high resolution) takes significant time and memory, especially with complex algorithms (K-Means, NeuQuant, Jarvis). Try resizing the image beforehand or use simpler algorithms.</li>
@@ -1301,7 +1301,7 @@ export const HelpContent: Record<string, React.ReactNode> = {
              <li><strong>Web Workers:</strong> If the application uses Web Workers for processing, ensure they aren't being blocked by browser settings or extensions.</li>
          </ul>
        </div>
-       <div className="border border-[#999999] p-2 bg-[#e8e8e8] mb-4">
+       <div className="mb-4">
          <h2 className="text-[14px] font-bold mb-2">Unexpected Visual Results</h2>
          <ul className="list-disc pl-5 text-[12px] space-y-1">
              <li><strong>Muddy/Undefined Dithering:</strong> Often caused by low contrast in the input image or inappropriate palette choice. Try increasing contrast before dithering. Ensure the palette has enough range for the image content.</li>
@@ -1311,19 +1311,19 @@ export const HelpContent: Record<string, React.ReactNode> = {
              <li><strong>"Worm" Artifacts (Error Diffusion):</strong> Characteristic of some error diffusion algorithms. Try a different one (e.g., Atkinson might show fewer), adjust diffusion strength, or use ordered dithering.</li>
          </ul>
        </div>
-        <div className="border border-[#999999] p-2 bg-[#ffffcc] mb-4">
+        <div className="mb-4">
          <h3 className="text-[12px] font-bold mb-1 flex items-center">
-           <span className="inline-block w-4 h-4 bg-[#ffcc33] text-black text-center mr-1 border border-[#cc9900]">
+           <span className="inline-block w-4 h-4 bg-accent text-white text-center mr-1 font-bold">
              !
            </span>
            Check the Log
          </h3>
          <p className="text-[11px] leading-tight">
-           Always check the <a href="#processing-log" className="text-[#3366cc] underline">Processing Log</a> panel for specific warnings or error messages that might indicate the cause of the problem.
+           Always check the <a href="#processing-log" className="text-accent underline">Processing Log</a> panel for specific warnings or error messages that might indicate the cause of the problem.
          </p>
        </div>
-      <div className="border-t border-[#999999] pt-2 mt-4">
-        <div className="text-[10px] text-[#666666]">Last updated: {new Date().toLocaleDateString()}</div>
+      <div className="border-t border-border pt-2 mt-4">
+        <div className="text-[10px] text-muted">Last updated: {new Date().toLocaleDateString()}</div>
       </div>
     </div>
   ),

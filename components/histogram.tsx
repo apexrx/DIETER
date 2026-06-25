@@ -46,8 +46,8 @@ export default function Histogram({ image }: HistogramProps) {
       histogramG[g]++
       histogramB[b]++
 
-      // Calculate luminance (simple average for speed)
-      const l = Math.round((r + g + b) / 3)
+      // Calculate luminance (perceptual weights)
+      const l = Math.round(0.2989 * r + 0.587 * g + 0.114 * b)
       histogramL[l]++
     }
 
@@ -62,77 +62,43 @@ export default function Histogram({ image }: HistogramProps) {
     canvas.width = 256
     canvas.height = 100
 
-    // Clear canvas
-    ctx.fillStyle = "#f0f0f0"
+    // Dark scope background
+    ctx.fillStyle = "#1a1a1a"
     ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-    // Draw grid lines
-    ctx.strokeStyle = "#cccccc"
-    ctx.beginPath()
-    for (let i = 0; i < 256; i += 32) {
-      ctx.moveTo(i, 0)
-      ctx.lineTo(i, canvas.height)
-    }
-    for (let i = 0; i < canvas.height; i += 25) {
-      ctx.moveTo(0, i)
-      ctx.lineTo(canvas.width, i)
-    }
-    ctx.stroke()
+    const barWidth = 1
+    const maxBarHeight = canvas.height - 2
 
-    // Draw border
-    ctx.strokeStyle = "#999999"
-    ctx.strokeRect(0, 0, canvas.width, canvas.height)
-
-    // Draw histograms
-    const drawHistogram = (histogram: number[], color: string) => {
-      ctx.strokeStyle = color
-      ctx.beginPath()
-
+    const drawBars = (histogram: number[], color: string, offset = 0) => {
+      ctx.fillStyle = color
       for (let i = 0; i < 256; i++) {
-        const h = (histogram[i] / maxValue) * canvas.height
-
-        if (i === 0) {
-          ctx.moveTo(i, canvas.height - h)
-        } else {
-          ctx.lineTo(i, canvas.height - h)
+        const h = (histogram[i] / maxValue) * maxBarHeight
+        if (h > 0.5) {
+          ctx.fillRect(i * barWidth + offset, canvas.height - h, barWidth, h)
         }
       }
-
-      ctx.stroke()
     }
 
-    // Draw luminance histogram first (as background)
-    drawHistogram(histogramL, "#333333")
+    drawBars(histogramR, "#ff5c00", 0)
+    drawBars(histogramG, "#ff5c00", 0)
+    drawBars(histogramB, "#ff5c00", 0)
+    drawBars(histogramL, "#ff5c00", 0)
 
-    // Draw RGB histograms
-    drawHistogram(histogramR, "#cc0000")
-    drawHistogram(histogramG, "#00cc00")
-    drawHistogram(histogramB, "#0000cc")
-
-    // Draw legend
-    ctx.fillStyle = "#333333"
-    ctx.fillRect(5, 5, 10, 5)
-    ctx.fillStyle = "#cc0000"
-    ctx.fillRect(50, 5, 10, 5)
-    ctx.fillStyle = "#00cc00"
-    ctx.fillRect(95, 5, 10, 5)
-    ctx.fillStyle = "#0000cc"
-    ctx.fillRect(140, 5, 10, 5)
-
-    ctx.fillStyle = "#333333"
-    ctx.font = "8px monospace"
-    ctx.fillText("Lum", 17, 10)
-    ctx.fillText("R", 62, 10)
-    ctx.fillText("G", 107, 10)
-    ctx.fillText("B", 152, 10)
+    // Luminance outline (brighter)
+    ctx.strokeStyle = "#ff8833"
+    ctx.lineWidth = 1
+    ctx.beginPath()
+    for (let i = 0; i < 256; i++) {
+      const h = (histogramL[i] / maxValue) * maxBarHeight
+      if (i === 0) ctx.moveTo(i, canvas.height - h)
+      else ctx.lineTo(i, canvas.height - h)
+    }
+    ctx.stroke()
   }, [image])
 
   return (
     <div className="w-full">
-      <div className="text-[11px] font-bold uppercase mb-1 text-center bg-[#d0d0d0] border border-[#999999] py-1">
-        Histogram
-      </div>
-      <canvas ref={canvasRef} className="w-full h-[100px] bg-[#f0f0f0] border border-[#999999]"></canvas>
+      <canvas ref={canvasRef} className="w-full h-[100px]"></canvas>
     </div>
   )
 }

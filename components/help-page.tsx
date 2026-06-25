@@ -14,7 +14,7 @@ interface HelpPageProps {
 const createNavLink = (sectionId: string, label: string, activeSection: string, setActiveSection: (section: string) => void, isSubItem = false) => {
   const isActive = activeSection === sectionId;
   const textClass = isSubItem ? "text-[11px]" : "text-[12px]";
-  const activeClass = isActive ? "font-bold text-[#3366cc]" : "";
+  const activeClass = isActive ? "font-bold text-accent" : "";
   const mbClass = isSubItem ? "mb-1" : "";
 
   // Use button for accessibility and clear click handling
@@ -142,43 +142,43 @@ export default function HelpPage({ isOpen, onClose }: HelpPageProps) {
 
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"> {/* Added backdrop-blur */}
-      <div className="relative w-[90vw] h-[90vh] max-w-[1200px] max-h-[800px] bg-[#f0f0f0] border-2 border-[#999999] flex flex-col shadow-2xl"> {/* Added max sizes and shadow */}
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-bg/80">
+      <div className="relative w-[90vw] h-[90vh] max-w-[1200px] max-h-[800px] bg-bg border border-border flex flex-col">
         {/* Header */}
-        <div className="bg-[#d8d8d8] border-b border-[#999999] p-2 flex items-center justify-between flex-shrink-0">
+        <div className="bg-surface border-b border-border p-2 flex items-center justify-between flex-shrink-0">
            {/* ... Header content (Title, buttons) ... */}
             <div className="flex items-center">
              <div className="text-[16px] font-bold uppercase tracking-[1px] mr-4">DIETER Help System</div>
-             <div className="text-[12px] text-[#666666]">v1.0</div>
+             <div className="text-[12px] text-muted">v1.0</div>
            </div>
            <div className="flex items-center gap-1"> {/* Reduced gap slightly */}
              {/* Add onClick handlers for navigation if history management is implemented */}
-             <button title="Home" onClick={() => setActiveSection("introduction")} className="bg-[#e8e8e8] border border-[#999999] p-1 hover:bg-[#f5f5f5] active:bg-[#e0e0e0]"> <Home className="h-4 w-4" /></button>
-             <button title="Back (Not Implemented)" disabled className="bg-[#e8e8e8] border border-[#999999] p-1 text-gray-400 cursor-not-allowed"><ArrowLeft className="h-4 w-4" /></button>
-             <button title="Forward (Not Implemented)" disabled className="bg-[#e8e8e8] border border-[#999999] p-1 text-gray-400 cursor-not-allowed"><ArrowRight className="h-4 w-4" /></button>
-             <button title="Print" onClick={() => window.print()} className="bg-[#e8e8e8] border border-[#999999] p-1 hover:bg-[#f5f5f5] active:bg-[#e0e0e0]"><Printer className="h-4 w-4" /></button>
-             <button title="Close" onClick={onClose} className="bg-[#e8e8e8] border border-[#999999] p-1 hover:bg-[#f5f5f5] active:bg-[#e0e0e0]"><X className="h-4 w-4" /></button>
+             <button title="Home" onClick={() => setActiveSection("introduction")} className="bg-surface border border-border p-1 hover:bg-surface active:bg-surface"> <Home className="h-4 w-4" /></button>
+             <button title="Back (Not Implemented)" disabled className="bg-surface border border-border p-1 text-gray-400 cursor-not-allowed"><ArrowLeft className="h-4 w-4" /></button>
+             <button title="Forward (Not Implemented)" disabled className="bg-surface border border-border p-1 text-gray-400 cursor-not-allowed"><ArrowRight className="h-4 w-4" /></button>
+             <button title="Print" onClick={() => window.print()} className="bg-surface border border-border p-1 hover:bg-surface active:bg-surface"><Printer className="h-4 w-4" /></button>
+             <button title="Close" onClick={onClose} className="bg-surface border border-border p-1 hover:bg-surface active:bg-surface"><X className="h-4 w-4" /></button>
            </div>
         </div>
 
         <div className="flex-1 flex overflow-hidden">
           {/* Left sidebar - Table of Contents */}
-           <div className="w-[280px] border-r border-[#999999] bg-[#e8e8e8] overflow-y-auto flex-shrink-0"> {/* Increased width slightly */}
-             <div className="p-2 border-b border-[#999999] bg-[#d0d0d0] sticky top-0 z-10"> {/* Sticky header */}
+           <div className="w-[280px] border-r border-border bg-surface overflow-y-auto flex-shrink-0"> {/* Increased width slightly */}
+             <div className="p-2 border-b border-border bg-surface sticky top-0 z-10"> {/* Sticky header */}
                <div className="text-[12px] uppercase font-bold">Contents</div>
              </div>
 
               {/* TOC Search Bar */}
-               <div className="p-2 border-b border-[#999999]">
+               <div className="p-2 border-b border-border">
                    <div className="relative">
                        <input
                            type="text"
                            placeholder="Filter topics..."
                            value={searchTerm}
                            onChange={(e) => setSearchTerm(e.target.value)}
-                           className="w-full border border-[#999999] p-1 text-[11px] pl-6" // Added padding for icon
+                           className="w-full border border-border p-1 text-[11px] pl-6" // Added padding for icon
                        />
-                       <Search className="absolute left-1 top-1/2 transform -translate-y-1/2 h-3 w-3 text-[#666666]" />
+                       <Search className="absolute left-1 top-1/2 transform -translate-y-1/2 h-3 w-3 text-muted" />
                    </div>
                </div>
 
@@ -192,7 +192,7 @@ export default function HelpPage({ isOpen, onClose }: HelpPageProps) {
                  <div className="mb-2">
                     {createSectionToggle("getting-started", "Getting Started", expandedSections, toggleSection)}
                      {expandedSections["getting-started"] && (
-                       <div className="pl-4 mt-1 border-l border-[#b0b0b0] ml-1 space-y-1"> {/* Slightly lighter border */}
+                       <div className="pl-4 mt-1 border-l border-border ml-1 space-y-1"> {/* Slightly lighter border */}
                          {createNavLink("uploading-images", "Uploading Images", activeSection, setActiveSection, true)}
                          {createNavLink("interface-overview", "Interface Overview", activeSection, setActiveSection, true)}
                          {createNavLink("basic-workflow", "Basic Workflow", activeSection, setActiveSection, true)}
@@ -203,7 +203,7 @@ export default function HelpPage({ isOpen, onClose }: HelpPageProps) {
                  <div className="mb-2">
                      {createSectionToggle("dithering-algorithms", "Dithering Algorithms", expandedSections, toggleSection)}
                      {expandedSections["dithering-algorithms"] && (
-                       <div className="pl-4 mt-1 border-l border-[#b0b0b0] ml-1 space-y-1">
+                       <div className="pl-4 mt-1 border-l border-border ml-1 space-y-1">
                          {createNavLink("error-diffusion", "Error Diffusion Methods", activeSection, setActiveSection, true)}
                          {createNavLink("ordered-dithering", "Ordered Dithering", activeSection, setActiveSection, true)}
                          {createNavLink("other-methods", "Other Methods", activeSection, setActiveSection, true)}
@@ -214,7 +214,7 @@ export default function HelpPage({ isOpen, onClose }: HelpPageProps) {
                  <div className="mb-2">
                      {createSectionToggle("color-quantization", "Color Quantization", expandedSections, toggleSection)}
                      {expandedSections["color-quantization"] && (
-                       <div className="pl-4 mt-1 border-l border-[#b0b0b0] ml-1 space-y-1">
+                       <div className="pl-4 mt-1 border-l border-border ml-1 space-y-1">
                          {createNavLink("median-cut", "Median Cut", activeSection, setActiveSection, true)}
                          {createNavLink("k-means", "K-Means Clustering", activeSection, setActiveSection, true)}
                          {createNavLink("octree", "Octree Quantization", activeSection, setActiveSection, true)}
@@ -226,7 +226,7 @@ export default function HelpPage({ isOpen, onClose }: HelpPageProps) {
                   <div className="mb-2">
                      {createSectionToggle("image-adjustments", "Image Adjustments", expandedSections, toggleSection)}
                      {expandedSections["image-adjustments"] && (
-                       <div className="pl-4 mt-1 border-l border-[#b0b0b0] ml-1 space-y-1">
+                       <div className="pl-4 mt-1 border-l border-border ml-1 space-y-1">
                          {createNavLink("brightness-contrast", "Brightness & Contrast", activeSection, setActiveSection, true)}
                          {createNavLink("saturation", "Saturation / Grayscale", activeSection, setActiveSection, true)}
                          {createNavLink("blur-sharpen", "Blur & Sharpen", activeSection, setActiveSection, true)}
@@ -240,7 +240,7 @@ export default function HelpPage({ isOpen, onClose }: HelpPageProps) {
                  <div className="mb-2">
                      {createSectionToggle("batch-processing", "Batch Processing", expandedSections, toggleSection)}
                      {expandedSections["batch-processing"] && (
-                       <div className="pl-4 mt-1 border-l border-[#b0b0b0] ml-1 space-y-1">
+                       <div className="pl-4 mt-1 border-l border-border ml-1 space-y-1">
                          {createNavLink("batch-overview", "Batch Processing Overview", activeSection, setActiveSection, true)}
                          {createNavLink("batch-workflow", "Batch Workflow", activeSection, setActiveSection, true)}
                        </div>
@@ -252,7 +252,7 @@ export default function HelpPage({ isOpen, onClose }: HelpPageProps) {
                  <div className="mb-2">
                      {createSectionToggle("advanced-features", "Advanced Features", expandedSections, toggleSection)}
                      {expandedSections["advanced-features"] && (
-                       <div className="pl-4 mt-1 border-l border-[#b0b0b0] ml-1 space-y-1">
+                       <div className="pl-4 mt-1 border-l border-border ml-1 space-y-1">
                          {createNavLink("custom-palettes", "Custom Palettes", activeSection, setActiveSection, true)}
                          {createNavLink("histogram", "Histogram Analysis", activeSection, setActiveSection, true)}
                          {createNavLink("processing-log", "Processing Log", activeSection, setActiveSection, true)}
@@ -268,7 +268,7 @@ export default function HelpPage({ isOpen, onClose }: HelpPageProps) {
            </div>
 
           {/* Main content area */}
-           <div id="help-content-area" className="flex-1 overflow-y-auto bg-white"> {/* Changed background */}
+           <div id="help-content-area" className="flex-1 overflow-y-auto bg-bg">
              <div className="p-4 md:p-6"> {/* Added padding */}
                 {/* Content sections - Render dynamically */}
                  {HelpContent[activeSection as keyof typeof HelpContent] ? (
